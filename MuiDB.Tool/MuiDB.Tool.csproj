@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="MuiDB.Tool.nuspec" />
     <None Include="MuiDB.Tool.ruleset" />
     <None Include="packages.config" />
     <AdditionalFiles Include="..\stylecop.json" />
