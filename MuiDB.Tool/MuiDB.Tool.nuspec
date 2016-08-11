@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <metadata>
-        <id>$id$</id>
+        <id>fmdev.MuiDB.Tool</id>
         <version>$version$</version>
         <authors>$author$</authors>
         <owners>Florian Mücke</owners>

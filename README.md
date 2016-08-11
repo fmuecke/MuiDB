@@ -1,2 +1,2 @@
 # muidb
-Multilingual user interface text database
+Multilingual user interface string database
