@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<muidb>
+  <output>
+    <resx lang="en">Strings.resx</resx>
+    <resx lang="en">Strings.en.resx</resx>
+    <resx lang="de">Strings.de.resx</resx>
+  </output>
+  <translations>
+    <item id="ListType">
+      <text lang="en" state="final">List type</text>
+      <text lang="de" state="final">Listentyp</text>
+    </item>
+    <item id="XItems">
+	<comment lang="en">Items with number with thousands separator</comment>
+      <text lang="en" state="final">{0:N0} items</text>
+      <text lang="de" state="final">{0:N0} Einträge</text>
+    </item>
+  </translations>
+</muidb>
