@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <muidb>
-  <output>
+  <files>
     <resx lang="en">Strings.resx</resx>
     <resx lang="en">Strings.en.resx</resx>
     <resx lang="de">Strings.de.resx</resx>
-  </output>
+  </files>
   <translations>
     <item id="ListType">
       <text lang="en" state="final">List type</text>

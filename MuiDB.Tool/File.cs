@@ -22,6 +22,10 @@ namespace fmdev.MuiDB
         private const string TextName = "text";
         private const string LangName = "lang";
         private const string StateName = "state";
+        private const string OutputFilesName = "files";
+        private const string ResxName = "resx";
+        ////private const string XlfName = "files";
+
         private XDocument doc;
         private XNamespace ns;
 
@@ -33,6 +37,33 @@ namespace fmdev.MuiDB
         }
 
         public string Filename { get; private set; }
+
+        public List<OutputFile> OutputFiles
+        {
+            get
+            {
+                var filesNode = doc.Root.Element(ns + OutputFilesName);
+                if (filesNode == null)
+                {
+                    return new List<OutputFile>();
+                }
+
+                var fileNodes = filesNode.Elements(ns + ResxName);
+                if (!fileNodes.Any())
+                {
+                    return new List<OutputFile>();
+                }
+
+                return fileNodes.Select(f =>
+                {
+                    return new OutputFile()
+                    {
+                        Name = f.Value,
+                        Lang = f.Attribute(ns + LangName)?.Value
+                    };
+                }).ToList();
+            }
+        }
 
         public IEnumerable<Item> Translations
         {

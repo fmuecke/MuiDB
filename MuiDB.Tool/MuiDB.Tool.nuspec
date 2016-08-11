@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <authors>$author$</authors>
+        <owners>Florian Mücke</owners>
+        <licenseUrl>https://raw.githubusercontent.com/fmuecke/MuiDB/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/fmuecke/MuiDB</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>$description$</description>
+        <releaseNotes>Initial release</releaseNotes>
+        <copyright>Copyright © 2016  Florian Mücke</copyright>
+        <tags>resx xlf xliff conversion tool commandline muidb</tags>
+        <dependencies />
+    </metadata>
+</package>

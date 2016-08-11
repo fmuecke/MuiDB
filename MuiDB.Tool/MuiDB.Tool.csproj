@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Args.cs" />
     <Compile Include="..\GlobalSuppressions.cs" />
+    <Compile Include="OutputFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="File.cs" />

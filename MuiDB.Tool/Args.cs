@@ -7,6 +7,7 @@ namespace fmdev.MuiDB
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -19,8 +20,15 @@ namespace fmdev.MuiDB
             return typeof(Args).GetNestedTypes().Select(t => (Command)Activator.CreateInstance(t)).ToList();
         }
 
-        [System.ComponentModel.Description("import translations from ResX/XLIFF file")]
-        public class ImportCommand : Command
+        [Description("display information on MuiDB file")]
+        public class InfoCommand : Command
+        {
+            [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
+            public string MuiDB { get; set; }
+        }
+
+        [Description("import translations from specific ResX/XLIFF file")]
+        public class ImportFileCommand : Command
         {
             [CommandArg(HelpText = "the file to import from", IsRequired = true)]
             public string In { get; set; }
@@ -36,13 +44,26 @@ namespace fmdev.MuiDB
 
             ////[CommandArg(HelpText = "update existing entries during import")]
             ////public bool Update { get; set; }
+
+            [CommandArg(HelpText = "print verbose output")]
+            public bool Verbose { get; set; }
         }
 
-        [System.ComponentModel.Description("export translations to ResX/XLIFF file")]
+        [Description("export translations for configured resx files")]
         public class ExportCommand : Command
         {
+            [CommandArg(HelpText = "the MuiDB file to process", IsRequired = true)]
+            public string MuiDB { get; set; }
+
+            [CommandArg(HelpText = "print verbose output")]
+            public bool Verbose { get; set; }
+        }
+
+        [Description("export translations to specific ResX/XLIFF file")]
+        public class ExportFileCommand : Command
+        {
             [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
-            public string Muidb { get; set; }
+            public string MuiDB { get; set; }
 
             [CommandArg(HelpText = "the language that should be exported", IsRequired = true)]
             public string Lang { get; set; }
@@ -55,23 +76,19 @@ namespace fmdev.MuiDB
 
             [CommandArg(HelpText = "do not include comments in output file")]
             public bool NoComments { get; set; }
+
+            [CommandArg(HelpText = "print verbose output")]
+            public bool Verbose { get; set; }
         }
 
-        [System.ComponentModel.Description("apply default format to MuiDB file (will sort items as well)")]
+        [Description("apply default format to MuiDB file (sorts items)")]
         public class FormatCommand : Command
         {
             [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
-            public string Muidb { get; set; }
+            public string MuiDB { get; set; }
         }
 
-        [System.ComponentModel.Description("display statistical information")]
-        public class InfoCommand : Command
-        {
-            [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
-            public string Muidb { get; set; }
-        }
-
-        [System.ComponentModel.Description("version and license information")]
+        [Description("display version and license information")]
         public class AboutCommand : Command
         {
         }

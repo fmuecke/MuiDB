@@ -7,6 +7,7 @@ namespace fmdev.MuiDB
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace fmdev.MuiDB
     {
         public static void Info(Args.InfoCommand cmd)
         {
-            var muidb = new File(cmd.Muidb);
+            var muidb = new File(cmd.MuiDB);
             var initialCount = 0;
             var translatedCount = 0;
             var reviewedCount = 0;
@@ -57,7 +58,7 @@ namespace fmdev.MuiDB
             Console.WriteLine($"  # final     : {finalCount}");
         }
 
-        public static void Import(Args.ImportCommand cmd)
+        public static void ImportFile(Args.ImportFileCommand cmd)
         {
             var muidb = new File(cmd.Muidb);
 
@@ -70,6 +71,11 @@ namespace fmdev.MuiDB
                     var doc = new XliffParser.XlfDocument(cmd.In);
                     var file = doc.Files.First();
 
+                    if (cmd.Verbose)
+                    {
+                        Console.WriteLine($"adding/updating resources for language '{cmd.Lang}...");
+                    }
+
                     foreach (var unit in file.TransUnits)
                     {
                         var id = unit.Id;
@@ -79,6 +85,11 @@ namespace fmdev.MuiDB
                         }
 
                         var comment = unit.Optional.Notes.Any() ? unit.Optional.Notes.First().Value : null;
+                        if (cmd.Verbose)
+                        {
+                            Console.WriteLine($"adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
+                        }
+
                         muidb.AddOrUpdateTranslation(id, cmd.Lang, unit.Target, unit.Optional.TargetState, comment);
                     }
 
@@ -93,7 +104,23 @@ namespace fmdev.MuiDB
 
         public static void Export(Args.ExportCommand cmd)
         {
-            var muidb = new File(cmd.Muidb);
+            var muidb = new File(cmd.MuiDB);
+            var dir = Path.GetDirectoryName(cmd.MuiDB);
+            foreach (var file in muidb.OutputFiles)
+            {
+                var filePath = Path.Combine(dir, file.Name);
+                if (cmd.Verbose)
+                {
+                    Console.WriteLine($"exporting language '{file.Lang}' into file '{filePath}'");
+                }
+
+                muidb.SaveAsResX(filePath, file.Lang);
+            }
+        }
+
+        public static void ExportFile(Args.ExportFileCommand cmd)
+        {
+            var muidb = new File(cmd.MuiDB);
             var mode = new File.ResXSaveMode();
             mode.DoIncludeComments = !cmd.NoComments;
 
@@ -101,6 +128,11 @@ namespace fmdev.MuiDB
             {
                 case "resx":
                     muidb.SaveAsResX(cmd.Out, cmd.Lang, mode);
+                    if (cmd.Verbose)
+                    {
+                        Console.WriteLine($"exporting language '{cmd.Lang}' into file '{cmd.Out}'");
+                    }
+
                     break;
 
                 case "xliff":
@@ -113,7 +145,7 @@ namespace fmdev.MuiDB
 
         public static void Format(Args.FormatCommand cmd)
         {
-            var muidb = new File(cmd.Muidb);
+            var muidb = new File(cmd.MuiDB);
             muidb.Save();
         }
 
@@ -128,13 +160,17 @@ namespace fmdev.MuiDB
                     {
                         Info(argsParser.Result as Args.InfoCommand);
                     }
-                    else if (argsParser.Result is Args.ImportCommand)
+                    else if (argsParser.Result is Args.ImportFileCommand)
                     {
-                        Import(argsParser.Result as Args.ImportCommand);
+                        ImportFile(argsParser.Result as Args.ImportFileCommand);
                     }
                     else if (argsParser.Result is Args.ExportCommand)
                     {
                         Export(argsParser.Result as Args.ExportCommand);
+                    }
+                    else if (argsParser.Result is Args.ExportFileCommand)
+                    {
+                        ExportFile(argsParser.Result as Args.ExportFileCommand);
                     }
                     else if (argsParser.Result is Args.FormatCommand)
                     {
@@ -188,7 +224,7 @@ namespace fmdev.MuiDB
                 "CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n" +
                 "OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" +
                 "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n" +
-                "\nPlease feel free to contribute:\n\n  https://github.com/fmuecke/muidb\n\n" +
+                "\nPlease feel free to contribute:\n\n  https://github.com/fmuecke/MuiDB\n\n" +
                 $"{app} uses the following open source 3rdParty libs:\n\n" +
                 "  - XLiffParser: https://github.com/fmuecke/XliffParser (BSD)\n" +
                 "  - ArgsParser: https://github.com/fmuecke/ArgsParser (BSD)\n\n" +
