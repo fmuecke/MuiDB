@@ -15,10 +15,6 @@ namespace fmdev.MuiDB
 
     internal static class Args
     {
-        public static List<Command> Commands()
-        {
-            return typeof(Args).GetNestedTypes().Select(t => (Command)Activator.CreateInstance(t)).ToList();
-        }
 
         [Description("display information on MuiDB file")]
         public class InfoCommand : Command

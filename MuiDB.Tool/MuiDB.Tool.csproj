@@ -35,8 +35,8 @@
     <CodeAnalysisRuleSet>MuiDB.Tool.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="fmdev.ArgsParser, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\fmdev.ArgsParser.0.1.2\lib\net46\fmdev.ArgsParser.dll</HintPath>
+    <Reference Include="fmdev.ArgsParser, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\fmdev.ArgsParser.0.2.3\lib\net461\fmdev.ArgsParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FMDev.XliffParser, Version=0.4.2.0, Culture=neutral, processorArchitecture=MSIL">

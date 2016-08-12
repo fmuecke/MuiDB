@@ -153,7 +153,7 @@ namespace fmdev.MuiDB
         {
             try
             {
-                var argsParser = new fmdev.ArgsParser.ArgsParser(Args.Commands());
+                var argsParser = new fmdev.ArgsParser.ArgsParser(typeof(Args));
                 if (argsParser.Parse(args))
                 {
                     if (argsParser.Result is Args.InfoCommand)

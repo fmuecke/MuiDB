@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Florian Mücke")]
 [assembly: AssemblyProduct("MuiDB")]
-[assembly: AssemblyCopyright("Copyright (c) Florian Mücke 2016")]
+[assembly: AssemblyCopyright("Copyright © Florian Mücke 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
