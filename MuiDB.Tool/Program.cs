@@ -56,6 +56,12 @@ namespace fmdev.MuiDB
             Console.WriteLine($"  # translated: {translatedCount}");
             Console.WriteLine($"  # reviewed  : {reviewedCount}");
             Console.WriteLine($"  # final     : {finalCount}");
+
+            Console.WriteLine("Configured output files:");
+            foreach (var file in muidb.OutputFiles)
+            {
+                Console.WriteLine($" - {file.Name} (lang={file.Lang})");
+            }
         }
 
         public static void ImportFile(Args.ImportFileCommand cmd)
@@ -178,6 +184,7 @@ namespace fmdev.MuiDB
                     }
                     else if (argsParser.Result is Args.AboutCommand)
                     {
+                        argsParser.PrintHeader();
                         About();
                     }
                 }
@@ -200,6 +207,10 @@ namespace fmdev.MuiDB
         {
             var app = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             Console.WriteLine(
+                $"\n{app} uses the following open source 3rdParty libs:\n\n" +
+                "- XLiffParser: https://github.com/fmuecke/XliffParser (BSD)\n" +
+                "- ArgsParser: https://github.com/fmuecke/ArgsParser (BSD)\n\n" +
+                "For additional license information please consult the LICENSE file in the respective repository.\n\n" +
                 "License:\n" +
                 "Copyright (c) 2016, Florian Mücke\n" +
                 "All rights reserved.\n" +
@@ -223,12 +234,8 @@ namespace fmdev.MuiDB
                 "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n" +
                 "CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n" +
                 "OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" +
-                "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n" +
-                "\nPlease feel free to contribute:\n\n  https://github.com/fmuecke/MuiDB\n\n" +
-                $"{app} uses the following open source 3rdParty libs:\n\n" +
-                "  - XLiffParser: https://github.com/fmuecke/XliffParser (BSD)\n" +
-                "  - ArgsParser: https://github.com/fmuecke/ArgsParser (BSD)\n\n" +
-                "For additional license information please consult the LICENSE file in the respective repository.\n");
+                "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n" +
+                "Feel free to contribute! For more information, visit https://github.com/fmuecke/MuiDB.\n");
         }
     }
 }

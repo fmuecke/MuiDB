@@ -15,76 +15,77 @@ namespace fmdev.MuiDB
 
     internal static class Args
     {
+        private const string HelpTextVerbose = "Print verbose output.";
 
-        [Description("display information on MuiDB file")]
+        [Description("Display information for a MuiDB file.")]
         public class InfoCommand : Command
         {
-            [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file to read.", IsRequired = true)]
             public string MuiDB { get; set; }
         }
 
-        [Description("import translations from specific ResX/XLIFF file")]
+        [Description("Import translations from specific ResX/XLIFF file.")]
         public class ImportFileCommand : Command
         {
-            [CommandArg(HelpText = "the file to import from", IsRequired = true)]
+            [CommandArg(HelpText = "The file to import from.", IsRequired = true)]
             public string In { get; set; }
 
-            [CommandArg(HelpText = "the input file format - can be resx or xliff", IsRequired = true)]
+            [CommandArg(HelpText = "The input file format - can be resx or xliff.", IsRequired = true)]
             public string Format { get; set; }
 
-            [CommandArg(HelpText = "the target language that should be written", IsRequired = true)]
+            [CommandArg(HelpText = "The target language that should be written.", IsRequired = true)]
             public string Lang { get; set; }
 
-            [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file that should be imported to.", IsRequired = true)]
             public string Muidb { get; set; }
 
             ////[CommandArg(HelpText = "update existing entries during import")]
             ////public bool Update { get; set; }
 
-            [CommandArg(HelpText = "print verbose output")]
+            [CommandArg(HelpText = HelpTextVerbose)]
             public bool Verbose { get; set; }
         }
 
-        [Description("export translations for configured resx files")]
+        [Description("Export translations for configured resx files.")]
         public class ExportCommand : Command
         {
-            [CommandArg(HelpText = "the MuiDB file to process", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file to process.", IsRequired = true)]
             public string MuiDB { get; set; }
 
-            [CommandArg(HelpText = "print verbose output")]
+            [CommandArg(HelpText = HelpTextVerbose)]
             public bool Verbose { get; set; }
         }
 
-        [Description("export translations to specific ResX/XLIFF file")]
+        [Description("Export translations to a specific ResX/XLIFF file.")]
         public class ExportFileCommand : Command
         {
-            [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file to export from.", IsRequired = true)]
             public string MuiDB { get; set; }
 
-            [CommandArg(HelpText = "the language that should be exported", IsRequired = true)]
+            [CommandArg(HelpText = "The language that should be exported.", IsRequired = true)]
             public string Lang { get; set; }
 
-            [CommandArg(HelpText = "the resx output file", IsRequired = true)]
+            [CommandArg(HelpText = "The resx output file.", IsRequired = true)]
             public string Out { get; set; }
 
-            [CommandArg(HelpText = "the input file format - can be resx or xliff", IsRequired = true)]
+            [CommandArg(HelpText = "The input file format - can be resx or xliff.", IsRequired = true)]
             public string Format { get; set; }
 
-            [CommandArg(HelpText = "do not include comments in output file")]
+            [CommandArg(HelpText = "Do not include comments in output file.")]
             public bool NoComments { get; set; }
 
-            [CommandArg(HelpText = "print verbose output")]
+            [CommandArg(HelpText = HelpTextVerbose)]
             public bool Verbose { get; set; }
         }
 
-        [Description("apply default format to MuiDB file (sorts items)")]
+        [Description("Apply default format to MuiDB file (sorts items).")]
         public class FormatCommand : Command
         {
-            [CommandArg(HelpText = "the MuiDB file", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file to format", IsRequired = true)]
             public string MuiDB { get; set; }
         }
 
-        [Description("display version and license information")]
+        [Description("Display version and license information.")]
         public class AboutCommand : Command
         {
         }
