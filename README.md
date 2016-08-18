@@ -1,9 +1,26 @@
 # Multilingual User Interface strings DataBase (MuiDB) Tool
 
-## Purpose
-The main purpose of MuiDB is to ***simplify the translation workflow***. 
+The main purpose of MuiDB is to ***simplify the translation workflow***.
 
-### What does a typical translation workflow for a shared C#-Project look like?
+
+## Available on [nuget.org](https://www.nuget.org/packages/fmdev.MuiDB.Tool/)
+[![NuGet version](https://badge.fury.io/nu/fmdev.MuiDB.Tool.svg)](https://badge.fury.io/nu/fmdev.MuiDB.Tool)
+
+To install `muidb-tool`, run the following command in the Package Manager Console
+
+    Install-Package fmdev.MuiDB.Tool
+
+## Overview
+
+- [A typical c# translation workflow](#typical-workflow)
+- [The MuiDB way](#muidb-workflow) 
+- [Why MuiDB simply works™](#muidb-simply-works)
+- [Features overview](#features)
+- [Examples](#examples)
+- [License](#license)
+
+
+## What does a typical translation workflow for a shared C#-Project look like?<a name="typical-workflow"></a>
 
 Let's assume we want to ship our application with two languages *en* and *de* and 
 want to track the translation process for both.
@@ -18,7 +35,7 @@ Therefore we usally end up having at least three (!) languages in our project:
   - developer/source/fallback language: *"en"*
   - target languages: *en*, *de*
 
-So what does the actual workflow look like?
+So what does an actual workflow look like?
 
 1. Define the new string resource in Visual Studio (source language; &rarr; string gets added to `strings.resx`)
 2. Import string source into translation database
@@ -50,6 +67,7 @@ So what does the actual workflow look like?
     - Check in translations
 
 And some time later:
+
 1. Review translation
     - Open English translation file (`strings.en.xlf`)
     - Review translation and advance translation state
@@ -64,11 +82,10 @@ And some time later:
 - Really a lot of nasty work for a simple every day task
 - You have to live with proprietary tools and their limitations (bugs)
 
->*And all of this just to add one simple string resouce?*  - *That's just insane!*
->  --   
+>*And all of this just to add one simple string resouce? - That's just insane!*   
 > *There had to be a better way...*
 
-### What does it look like wit MuiDB?
+## The MuiDB way<a name="muidb-workflow"></a>
 We assume we already configured muidb-support for our C# project:
     - resx files that will be exported
     - what languge will be used for each export
@@ -91,13 +108,15 @@ We assume we already configured muidb-support for our C# project:
 And of course the review steps should be simpler as well. If it should be necessary to have separate files 
 for each language - just export them...
 
-### Why MuiDB simply works™
+
+## Why MuiDB simply works™ <a name="muidb-simply-works"></a>
 - All translations are stored in one single file - that's all you need to keep track of.
 - All other files are/can be generated.
 - It supports standard formats (XLIFF, ResX) to export and import strings to/from.
 - It keeps strings in sorted order to avoid merge conflicts.
 - It's just simple - No complex workflow needed.
 - It's all open source. If something should be broken, you can fix it.
+- The source translations are always up-to-date.
 
 ## Features
 - Import and export from/to standard translation/resource files
@@ -111,3 +130,9 @@ for each language - just export them...
    - Automatic sorting of translation strings (avoids merge conflicts when used within a shared project)
 - Supports an own comment field per language and translation entry
 
+## Examples
+
+TBD...
+
+## License
+For further license information see the [LICENSE](LICENSE) file.
