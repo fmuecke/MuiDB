@@ -37,32 +37,34 @@ Therefore we usally end up having at least three(!) languages in our project:
 
 So what does an actual workflow look like?
 
-1. Define the new string resource in Visual Studio (source language; &rarr; string gets added to `strings.resx`)
+1. Define the new string resource in Visual Studio
+   - String gets added to `strings.resx`
 2. Import string source into translation database
     - Open your favourite translation application (Multilingual App Toolkit, WinTrans...)
     - Update source file/import string
 3. Define initial target translations
     - Open *en* target language file (e.g. `strings.en.xlf`)
-    - Define proper English translation for new string
-    - Advance translation state
+    - Define proper English translation for new string and advance translation state
     - Open *de* target language file (e.g. `strings.de.xlf`)
-    - Define proper German translation for new string
-    - Advance translation state
+    - Define proper German translation for new string and advance translation state
 4. Write target files
-    - Write *en* target file (&rarr; `strings.en.resx`)
-    - Write *de* target file (&rarr; `strings.de.resx`)
+    - `strings.en.resx`
+    - `strings.de.resx`
 5. Work around tool limitations
     - Fix broken line endings
     - Reformat XML documents
-    - Remove proprietary data from translation files that will force even more merge conflicts (WinTrans)
+    - Remove proprietary data from translation files that will force even more merge conflicts (WinTrans only)
+    - Reset working copy state for other translation relevant files that should not be committed (WinTrans only)
+    - Call some custom scripts to do this for all your projets (which will take some time)
+    - (Revert other touched projects)
 6. Check in initial translations into version control
     - Check out new translations made by your co-workers
-    - <span style="color:red">Resolve *merge conflicts for five(!) files*</span>:
-       - `strings.resx`
-       - `string.en.resx`
-       - `string.de.resx`
-       - `strings.en.xlf`
-       - `strings.de.xlf`
+    - <span style="color:red">Resolve *merge conflicts for five(!) files:*</span> 
+    `strings.resx`, 
+    `string.en.resx`,
+    `string.de.resx`,
+    `strings.en.xlf`,
+    `strings.de.xlf`
     - Recompile
     - Check in translations
 
@@ -74,7 +76,7 @@ And some time later:
     - Open German translation file (`strings.de.xlf`)
     - Review translation and advance translation state
 2. (Sync back final translation)
-    - not possible with standard tools
+    - (!) Not possible with standard tools.
 
 ### Summing it up
 - Merge conflicts
