@@ -149,31 +149,7 @@ randomly in the string database. And this is as well true for all the co-workers
 ## Examples
 
 ### Sample muidb.xml
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<muidb>
-  <files>
-    <resx lang="en">Strings.resx</resx>
-    <resx lang="en">Strings.en.resx</resx>
-    <resx lang="de">Strings.de.resx</resx>
-  </files>
-  <translations>
-    <item id="ButtonCancel">
-      <text lang="en" state="final">Cancel</text>
-      <text lang="de" state="final">Abbrechen</text>
-    </item>
-    <item id="XItems">
-      <comment lang="en">Items with number with thousands separator</comment>
-      <text lang="en" state="final">{0:N0} items</text>
-      <text lang="de" state="final">{0:N0} Einträge</text>
-    </item>
-    <item id="muidb">
-      <comment>Yes this really is MuiDB!</comment>
-      <text lang="*" state="final">MuiDB</text>
-    </item>
-  </translations>
-</muidb>
-```
+See [sample.muidb.xml](sample.muidb.xml).
 
 ## Configure C# project for MuiDB <a name="configure-project"></a>
 ### Muidb configuration/`muidb.xml`
