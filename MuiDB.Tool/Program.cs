@@ -208,7 +208,7 @@ namespace fmdev.MuiDB
             var app = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             Console.WriteLine(
                 $"\n{app} uses the following open source 3rdParty libs:\n\n" +
-                "- XLiffParser: https://github.com/fmuecke/XliffParser (BSD)\n" +
+                "- XliffParser: https://github.com/fmuecke/XliffParser (BSD)\n" +
                 "- ArgsParser: https://github.com/fmuecke/ArgsParser (BSD)\n\n" +
                 "For additional license information please consult the LICENSE file in the respective repository.\n\n" +
                 "License:\n" +
