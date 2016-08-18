@@ -90,15 +90,16 @@ translation. However most tools do not support syncing back to the source.
  of the database. And this is also true for all the co-workers adding strings for this project every day. 
 
 
-### Why it sucks
-- You have to perform an awful amount of tasks (hopefully in the correct order)
-- You have to use at least two different tools (not counting git) 
-- You have to resolve merge conflicts
-- You have to resolve merge conflicts for 5+ files
-- You have to circumvent some (a lot) limitations (bugs) of proprietary tools
-- You have to perform some time consuming tasks
-- You have to touch five(!) files just to add a new string
-- You have to do really a lot of work for a simple every-day-task
+### Why does this suck? <a name="why-it-sucks"></a>
+It sucks because you have to 
+- perform an awful amount of tasks (hopefully in the correct order)
+- use at least two different tools (not counting git) 
+- resolve merge conflicts
+- resolve merge conflicts for 5+ files
+- circumvent limitations (bugs) of proprietary tools
+- perform time consuming tasks
+- touch five(!) files just to add a new string
+- do really a lot of work for a simple every-day-task
 
 >*And all of this just to add one simple string resource? - That's just insane!*   
 
