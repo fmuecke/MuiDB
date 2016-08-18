@@ -84,7 +84,7 @@ translation. However most tools do not support syncing back to the source.
 >`Strings.en.xlf` - the English translation database  
 >`Strings.de.xlf` - the German translation database
 
-*Which of the files are involved in a merge conflicts?*
+*Which files are involved in a merge conflicts?*
 
 > Apparently **all five of them**. Because almost every time a new string is added it is appended to the *end*
  of the database. And this is also true for all the co-workers adding strings for this project every day. 
@@ -109,21 +109,24 @@ We assume we already configured muidb-support for our C# project:
     - what language will be used for each export
 
 1. Add the new string resource in `muidb.xml` - including initial translations 
-2. ~~Import new string into translation database~~
-3. ~~Update target translations in translation database~~
-4. ~~Write target~~ Auto-generate all resource files 
-5. Submit new translations to version control  
-    - ~~Work around tool limitations~~ 
-    - Resolve **no merge conflicts**
-    - Do not wait for recompilation
+2. Auto-generate all resource files 
+3. Submit new translations to version control  
 6. Review translations
-7. Source is always in sync with translations
+
+We **do not have to**
+
+- use multiple tools
+- work around tool limitations
+- resolve merge conflicts
+- wait for recompilation
+
+And of course all source strings are always in sync with their translation.
 
 *Which files are involved?*
 
 > `muidb.xml` - the *muidb* string database (includes all translations and translation states)
 
-*Which of the files are involved in a merge conflicts?*
+*Which files are involved in a merge conflicts?*
 
 > **None**. Because muidb stores all strings in alphabetical order, new strings are added almost 
 randomly in the string database. And this is as well true for all the co-workers adding strings for this
@@ -139,7 +142,7 @@ randomly in the string database. And this is as well true for all the co-workers
 - Can be edited with every standard text editor - no fancy tools needed
 - Supports translation states
 - Merge friendly format
-   - Automatic sorting of translation strings (avoids merge conflicts when used within a shared project)
+  <!-- with automatic sorting of translation strings (avoids merge conflicts when used within a shared project)-->
 - Supports an own comment field per language and translation entry
 
 
