@@ -105,9 +105,8 @@ It sucks because you have to
 
 
 ## The MuiDB way<a name="muidb-workflow"></a>
-We assume we already configured muidb-support for our C# project:
-    - resx files that will be exported
-    - what language will be used for each export
+We assume we already [configured muidb-support](#configure-project) for our C# project.
+The steps to add a new string are: 
 
 1. Add the new string resource in `muidb.xml` - including initial translations 
 2. Auto-generate all resource files 
@@ -177,7 +176,35 @@ randomly in the string database. And this is as well true for all the co-workers
 ```
 
 ## Configure C# project for MuiDB <a name="configure-project"></a>
-TODO...
+### Muidb configuration/`muidb.xml`
+
+#### `<files>` section
+```xml
+ <files>
+    <resx lang="*">Strings.resx</resx>
+    <resx lang="*">Strings.en.resx</resx>
+    <resx lang="de">Strings.de.resx</resx>
+  </files>
+```
+
+- The resx files that will be exported
+- what language will be used for each export
+
+#### `<translations>` section
+```xml
+<translations>
+  <item id="ResourceID">
+    <text lang="*" state="final">international translation/fallback</text>
+    <text lang="de" state="final">translation in DE</text>
+  </item>
+  ...
+</translation>
+```
+
+***...TODO...***
+
+### Project file configuration
+***...TODO...***
 
 ## License
 For further license information please consult the [LICENSE](LICENSE) file.  
