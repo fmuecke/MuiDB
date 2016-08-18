@@ -31,7 +31,7 @@ We then assume that the original development team also provides *both* initial t
   - At least for non English native speakingers it should not be a problem to support their mother
    tongue and English as a target language 
 
-Therefore we usally end up having at least three (!) languages in our project:
+Therefore we usally end up having at least three(!) languages in our project:
   - developer/source/fallback language: *"en"*
   - target languages: *en*, *de*
 
@@ -57,7 +57,7 @@ So what does an actual workflow look like?
     - Remove proprietary data from translation files that will force even more merge conflicts (WinTrans)
 6. Check in initial translations into version control
     - Check out new translations made by your co-workers
-    - <span style="color:red">Resolve *merge conflicts for **five** files*</span>:
+    - <span style="color:red">Resolve *merge conflicts for five(!) files*</span>:
        - `strings.resx`
        - `string.en.resx`
        - `string.de.resx`
