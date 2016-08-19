@@ -194,10 +194,10 @@ Change
 ```
 to
 ```xml
-    <EmbeddedResource Include="Resources\Strings.resx">
-    	<DependentUpon>muidb.xml</DependentUpon>
-    	<AutoGen>True</AutoGen>
-    </EmbeddedResource>
+<EmbeddedResource Include="Resources\Strings.resx">
+	<DependentUpon>muidb.xml</DependentUpon>
+	<AutoGen>True</AutoGen>
+</EmbeddedResource>
 ```
 
 <!-- ####`Strings.Designer.cs`
@@ -223,16 +223,16 @@ to
 #### `Strings.*.resx` 
 (where '*' is an actual language) change
 ```xml
-    <EmbeddedResource Include="Resources\Strings.*.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+<EmbeddedResource Include="Resources\Strings.*.resx">
+  <SubType>Designer</SubType>
+</EmbeddedResource>
 ```
 to
 ```xml
-    <EmbeddedResource Include="Resources\Strings.*.resx">
-      <AutoGen>true</AutoGen>
-      <DependentUpon>muidb.xml</DependentUpon>
-    </EmbeddedResource>
+<EmbeddedResource Include="Resources\Strings.*.resx">
+  <AutoGen>true</AutoGen>
+  <DependentUpon>muidb.xml</DependentUpon>
+</EmbeddedResource>
 ```
 
 ## License
