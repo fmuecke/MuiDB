@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Args.cs" />
     <Compile Include="..\GlobalSuppressions.cs" />
+    <Compile Include="MissingTranslationsException.cs" />
     <Compile Include="OutputFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Text.cs" />

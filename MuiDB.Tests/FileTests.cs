@@ -10,10 +10,10 @@ namespace fmdev.MuiDB.Tests
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
     using FluentAssertions;
     using fmdev.MuiDB;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Xml.Linq;
 
     [TestClass]
     public class FileTests
@@ -45,6 +45,12 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         [TestCategory("IO")]
         public void SaveTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod]
+        public void VerifyTest()
         {
             Assert.Fail();
         }

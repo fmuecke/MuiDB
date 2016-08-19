@@ -16,6 +16,7 @@ namespace fmdev.MuiDB
     public class File
     {
         public const string EmptyDocument = "<muidb><files /><translations /></muidb>";
+        private const string LanguagesName = "languages";
         private const string TranslationsName = "translations";
         private const string ItemName = "item";
         private const string IdName = "id";
@@ -39,7 +40,7 @@ namespace fmdev.MuiDB
 
         public string Filename { get; private set; }
 
-        public List<OutputFile> OutputFiles
+        public IEnumerable<OutputFile> OutputFiles
         {
             get
             {
@@ -96,6 +97,22 @@ namespace fmdev.MuiDB
         public XDocument GetDocumentCopy()
         {
             return new XDocument(doc);
+        }
+
+        public List<string> GetLanguages()
+        {
+            var langs = doc.Root.Attribute(ns + LanguagesName)?.Value;
+            if (langs == null || string.IsNullOrWhiteSpace(langs))
+            {
+                return new List<string>();
+            }
+
+            return langs.Split(',').Select(l => l.Trim()).ToList();
+        }
+
+        public void SetLanguages(IEnumerable<string> languages)
+        {
+            doc.Root.SetAttributeValue(ns + LanguagesName, string.Join(",", languages));
         }
 
         public void AddOrUpdateTranslation(string id, string lang, string text, string state, string comment)
@@ -161,6 +178,28 @@ namespace fmdev.MuiDB
             var items = translationsNode.Elements(ns + ItemName).OrderBy(i => i.Attribute(ns + IdName).Value);
             translationsNode.ReplaceAll(items);
             doc.Save(Filename);
+        }
+
+        // will throw exception if muidb is not valid
+        public void Verify()
+        {
+            var missingTranslations = new List<string>();
+            var langs = GetLanguages();
+            foreach (var item in Translations)
+            {
+                foreach (var l in langs)
+                {
+                    if (!item.Texts.ContainsKey(l))
+                    {
+                        missingTranslations.Add($"{item.Id}:{l}");
+                    }
+                }
+            }
+
+            if (missingTranslations.Any())
+            {
+                throw new MissingTranslationsException(missingTranslations);
+            }
         }
 
         public void SaveAsResX(string fileName, string language)
