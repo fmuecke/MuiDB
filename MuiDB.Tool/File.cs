@@ -13,8 +13,9 @@ namespace fmdev.MuiDB
     using System.Threading.Tasks;
     using System.Xml.Linq;
 
-    internal class File
+    public class File
     {
+        public const string EmptyDocument = "<muidb><files /><translations /></muidb>";
         private const string TranslationsName = "translations";
         private const string ItemName = "item";
         private const string IdName = "id";
@@ -32,7 +33,7 @@ namespace fmdev.MuiDB
         public File(string filename)
         {
             Filename = filename;
-            doc = XDocument.Load(Filename);
+            doc = System.IO.File.Exists(Filename) ? XDocument.Load(Filename) : XDocument.Parse(EmptyDocument);
             ns = doc.Root.Name.Namespace;
         }
 
@@ -90,6 +91,11 @@ namespace fmdev.MuiDB
                     return item;
                 });
             }
+        }
+
+        public XDocument GetDocumentCopy()
+        {
+            return new XDocument(doc);
         }
 
         public void AddOrUpdateTranslation(string id, string lang, string text, string state, string comment)
