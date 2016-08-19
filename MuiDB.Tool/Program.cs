@@ -68,7 +68,7 @@ namespace fmdev.MuiDB
         {
             var muidb = new File(cmd.Muidb);
 
-            switch (cmd.Format.ToLowerInvariant())
+            switch (cmd.Type.ToLowerInvariant())
             {
                 case "resx":
                     throw new Exception("import from resx is not implemented, yet");
@@ -102,7 +102,7 @@ namespace fmdev.MuiDB
                     break;
 
                 default:
-                    throw new Exception($"unknown format: {cmd.Format}");
+                    throw new Exception($"unknown format: {cmd.Type}");
             }
 
             muidb.Save();
@@ -130,7 +130,7 @@ namespace fmdev.MuiDB
             var mode = new File.ResXSaveMode();
             mode.DoIncludeComments = !cmd.NoComments;
 
-            switch (cmd.Format.ToLowerInvariant())
+            switch (cmd.Type.ToLowerInvariant())
             {
                 case "resx":
                     muidb.SaveAsResX(cmd.Out, cmd.Lang, mode);
@@ -145,13 +145,14 @@ namespace fmdev.MuiDB
                     throw new Exception("xliff export is not implemented, yet");
 
                 default:
-                    throw new Exception($"unknown format: {cmd.Format}");
+                    throw new Exception($"unknown format: {cmd.Type}");
             }
         }
 
-        public static void Format(Args.FormatCommand cmd)
+        public static void Verify(Args.VerifyCommand cmd)
         {
             var muidb = new File(cmd.MuiDB);
+            muidb.Verify();
             muidb.Save();
         }
 
@@ -178,9 +179,9 @@ namespace fmdev.MuiDB
                     {
                         ExportFile(argsParser.Result as Args.ExportFileCommand);
                     }
-                    else if (argsParser.Result is Args.FormatCommand)
+                    else if (argsParser.Result is Args.VerifyCommand)
                     {
-                        Format(argsParser.Result as Args.FormatCommand);
+                        Verify(argsParser.Result as Args.VerifyCommand);
                     }
                     else if (argsParser.Result is Args.AboutCommand)
                     {

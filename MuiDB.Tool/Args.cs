@@ -30,8 +30,8 @@ namespace fmdev.MuiDB
             [CommandArg(HelpText = "The file to import from.", IsRequired = true)]
             public string In { get; set; }
 
-            [CommandArg(HelpText = "The input file format - can be resx or xliff.", IsRequired = true)]
-            public string Format { get; set; }
+            [CommandArg(HelpText = "The input file type - can be resx or xliff.", IsRequired = true)]
+            public string Type { get; set; }
 
             [CommandArg(HelpText = "The target language that should be written.", IsRequired = true)]
             public string Lang { get; set; }
@@ -68,8 +68,8 @@ namespace fmdev.MuiDB
             [CommandArg(HelpText = "The resx output file.", IsRequired = true)]
             public string Out { get; set; }
 
-            [CommandArg(HelpText = "The input file format - can be resx or xliff.", IsRequired = true)]
-            public string Format { get; set; }
+            [CommandArg(HelpText = "The input file type - can be resx or xliff.", IsRequired = true)]
+            public string Type { get; set; }
 
             [CommandArg(HelpText = "Do not include comments in output file.")]
             public bool NoComments { get; set; }
@@ -78,11 +78,14 @@ namespace fmdev.MuiDB
             public bool Verbose { get; set; }
         }
 
-        [Description("Apply default format to MuiDB file (sorts items).")]
-        public class FormatCommand : Command
+        [Description("Verify MuiDB file (optionally sorts items).")]
+        public class VerifyCommand : Command
         {
             [CommandArg(HelpText = "The MuiDB file to format", IsRequired = true)]
             public string MuiDB { get; set; }
+
+            [CommandArg(HelpText = "Format MuiDB file (will fix translation item sort order).")]
+            public bool Format { get; set; }
         }
 
         [Description("Display version and license information.")]
