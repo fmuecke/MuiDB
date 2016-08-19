@@ -180,7 +180,60 @@ See [sample.muidb.xml](sample.muidb.xml).
 ***...TODO...***
 
 ### Project file configuration
+
 ***...TODO...***
+
+#### `Strings.resx`
+
+Change
+```xml
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+```
+to
+```xml
+    <EmbeddedResource Include="Resources\Strings.resx">
+    	<DependentUpon>muidb.xml</DependentUpon>
+    	<AutoGen>True</AutoGen>
+    </EmbeddedResource>
+```
+
+<!-- ####`Strings.Designer.cs`
+Change 
+```xml
+...
+<Compile Include="Resources\Strings.Designer.cs">
+  <AutoGen>True</AutoGen>
+  <DesignTime>True</DesignTime>
+  <DependentUpon>Strings.resx</DependentUpon>
+</Compile>
+...
+```
+to
+```xml
+<Compile Include="Resources\Strings.Designer.cs">
+  <AutoGen>True</AutoGen>
+  <DesignTime>True</DesignTime>
+  <DependentUpon>muidb.xml</DependentUpon>
+</Compile>
+``` -->
+
+#### `Strings.*.resx` 
+(where '*' is an actual language) change
+```xml
+    <EmbeddedResource Include="Resources\Strings.*.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+```
+to
+```xml
+    <EmbeddedResource Include="Resources\Strings.*.resx">
+      <AutoGen>true</AutoGen>
+      <DependentUpon>muidb.xml</DependentUpon>
+    </EmbeddedResource>
+```
 
 ## License
 For further license information please consult the [LICENSE](LICENSE) file.  
