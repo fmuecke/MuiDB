@@ -187,10 +187,10 @@ See [sample.muidb.xml](sample.muidb.xml).
 
 Change
 ```xml
-    <EmbeddedResource Include="Resources\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+<EmbeddedResource Include="Resources\Strings.resx">
+  <Generator>ResXFileCodeGenerator</Generator>
+  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+</EmbeddedResource>
 ```
 to
 ```xml
