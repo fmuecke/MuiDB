@@ -24,12 +24,12 @@ namespace fmdev.MuiDB
                 var dict = resx.GetEnumerator();
                 while (dict.MoveNext())
                 {
-                    var x = dict.Value as ResXDataNode;
+                    var node = dict.Value as ResXDataNode;
                     result.Add(new ResXEntry()
                     {
                         Id = dict.Key as string,
-                        Value = (x.GetValue((ITypeResolutionService)null) as string).Replace("\r", string.Empty),
-                        Comment = x.Comment
+                        Value = (node.GetValue((ITypeResolutionService)null) as string).Replace("\r", string.Empty),
+                        Comment = node.Comment.Replace("\r", string.Empty)
                     });
                 }
             }
@@ -41,13 +41,13 @@ namespace fmdev.MuiDB
         {
             using (var resx = new ResXResourceWriter(filename))
             {
-                foreach (var e in entries)
+                foreach (var entry in entries)
                 {
-                    var node = new ResXDataNode(e.Id, e.Value);
+                    var node = new ResXDataNode(entry.Id, entry.Value.Replace("\n", Environment.NewLine));
 
-                    if (!string.IsNullOrWhiteSpace(e.Comment))
+                    if (!string.IsNullOrWhiteSpace(entry.Comment))
                     {
-                        node.Comment = e.Comment.Replace("\n", Environment.NewLine);
+                        node.Comment = entry.Comment.Replace("\n", Environment.NewLine);
                     }
 
                     resx.AddResource(node);

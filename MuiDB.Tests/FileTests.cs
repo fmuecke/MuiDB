@@ -37,11 +37,17 @@ namespace fmdev.MuiDB.Tests
             var filename = Guid.NewGuid().ToString();
             Assert.IsFalse(System.IO.File.Exists(filename), "new file must not exist before save");
             var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
-            f.Save();
-            Assert.IsTrue(System.IO.File.Exists(filename), "new file must exist after save");
-            var doc = XDocument.Load(filename);
-            doc.Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
-            System.IO.File.Delete(filename);
+            try
+            {
+                f.Save();
+                Assert.IsTrue(System.IO.File.Exists(filename), "new file must exist after save");
+                var doc = XDocument.Load(filename);
+                doc.Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
+            }
+            finally
+            {
+                System.IO.File.Delete(filename);
+            }
         }
 
         [TestMethod]
@@ -50,10 +56,16 @@ namespace fmdev.MuiDB.Tests
         {
             var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
             var tempFile = System.IO.Path.GetTempFileName();
-            f.Save(tempFile);
-            var doc = XDocument.Load(tempFile);
-            doc.Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
-            System.IO.File.Delete(tempFile);
+            try
+            {
+                f.Save(tempFile);
+                var doc = XDocument.Load(tempFile);
+                doc.Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
+            }
+            finally
+            {
+                System.IO.File.Delete(tempFile);
+            }
         }
 
         [TestMethod]
@@ -79,10 +91,29 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
-        [Ignore]
-        public void SaveAsResXTest()
+        public void ExportResXTest()
         {
-            Assert.Fail();
+            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            var tempFile_en = System.IO.Path.GetTempFileName();
+            var tempFile_de = System.IO.Path.GetTempFileName();
+            try
+            {
+                f.ExportResX(tempFile_en, "en", File.SaveOptions.IncludeComments);
+                f.ExportResX(tempFile_de, "de", File.SaveOptions.IncludeComments);
+
+                var content_en = System.IO.File.ReadAllText(tempFile_en);
+                var content_de = System.IO.File.ReadAllText(tempFile_de);
+                var expected_en = System.IO.File.ReadAllText("..\\..\\TestData\\Sample.en.resx");
+                var expected_de = System.IO.File.ReadAllText("..\\..\\TestData\\Sample.de.resx");
+
+                content_en.ShouldBeEquivalentTo(expected_en);
+                content_de.ShouldBeEquivalentTo(expected_de);
+            }
+            finally
+            {
+                System.IO.File.Delete(tempFile_en);
+                System.IO.File.Delete(tempFile_de);
+            }
         }
     }
 }

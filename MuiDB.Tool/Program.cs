@@ -72,18 +72,21 @@ namespace fmdev.MuiDB
             switch (cmd.Type.ToLowerInvariant())
             {
                 case "resx":
-                    var entries = ResXParser.Read(cmd.In);
-
-                    foreach (var e in entries)
+                    var result = muidb.ImportResX(cmd.In, cmd.Lang);
+                    if (cmd.Verbose)
                     {
-                        if (cmd.Verbose)
+                        foreach (var added in result.AddedItems)
                         {
-                            Console.WriteLine($"adding/updating resource '{e.Id}': text='{e.Value}'");
+                            Console.WriteLine($"added resource '{added}'");
                         }
 
-                        muidb.AddOrUpdateTranslation(e.Id, cmd.Lang, e.Value, "new", e.Comment);
+                        foreach (var updated in result.UpdatedItems)
+                        {
+                            Console.WriteLine($"updated resource '{updated}'");
+                        }
                     }
 
+                    Console.WriteLine($"added items: {result.AddedItems.Count}\nupdated items: {result.UpdatedItems.Count}");
                     break;
 
                 case "xliff":
@@ -133,7 +136,7 @@ namespace fmdev.MuiDB
                     Console.WriteLine($"exporting language '{file.Lang}' into file '{filePath}'");
                 }
 
-                muidb.SaveAsResX(filePath, file.Lang);
+                muidb.ExportResX(filePath, file.Lang);
             }
         }
 
@@ -146,7 +149,7 @@ namespace fmdev.MuiDB
                 case "resx":
                     var options = !cmd.NoComments ? File.SaveOptions.IncludeComments : File.SaveOptions.None;
 
-                    muidb.SaveAsResX(cmd.Out, cmd.Lang, options);
+                    muidb.ExportResX(cmd.Out, cmd.Lang, options);
                     if (cmd.Verbose)
                     {
                         Console.WriteLine($"exporting language '{cmd.Lang}' into file '{cmd.Out}'");
@@ -209,8 +212,13 @@ namespace fmdev.MuiDB
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine("error: " + e.Message);
+                if (e.InnerException != null)
+                {
+                    Console.Error.WriteLine("Additonal error information: " + e.InnerException.Message);
+                }
 #if DEBUG
+
                 Console.Error.WriteLine(e.StackTrace);
 #endif
                 System.Environment.ExitCode = 1;

@@ -53,6 +53,12 @@ namespace fmdev.MuiDB
         {
         }
 
+        public enum AddOrUpdateResult
+        {
+            Added,
+            Updated
+        }
+
         public enum OpenMode
         {
             OpenExisting,
@@ -150,7 +156,7 @@ namespace fmdev.MuiDB
             doc.Root.SetAttributeValue(ns + LanguagesName, string.Join(",", languages));
         }
 
-        public void AddOrUpdateTranslation(string id, string lang, string text, string state, string comment)
+        public AddOrUpdateResult AddOrUpdateTranslation(string id, string lang, string text, string state, string comment)
         {
             var translationsNode = doc.Root.Element(ns + TranslationsName);
             if (translationsNode == null)
@@ -161,15 +167,18 @@ namespace fmdev.MuiDB
 
             var items = translationsNode.Elements(ns + ItemName).Where(i => i.Attribute(ns + IdName)?.Value == id);
             XElement item;
+            AddOrUpdateResult result;
             if (items.Any())
             {
                 item = items.First();
+                result = AddOrUpdateResult.Updated;
             }
             else
             {
                 item = new XElement(ns + ItemName);
                 item.SetAttributeValue(ns + IdName, id);
                 translationsNode.Add(item);
+                result = AddOrUpdateResult.Added;
             }
 
             var textNodes = item.Elements(ns + TextName).Where(t => t.Attribute(ns + LangName)?.Value == lang);
@@ -206,6 +215,8 @@ namespace fmdev.MuiDB
 
                 commentNode.SetValue(comment);
             }
+
+            return result;
         }
 
         public void Save()
@@ -243,18 +254,29 @@ namespace fmdev.MuiDB
             }
         }
 
-        public void SaveAsResX(string fileName, string language)
+        public void ExportResX(string fileName, string language)
         {
-            SaveAsResX(fileName, language, SaveOptions.None);
+            ExportResX(fileName, language, SaveOptions.None);
         }
 
-        public void SaveAsResX(string filename, string language, SaveOptions options)
+        public void ExportResX(string filename, string language, SaveOptions options)
         {
+            if (!GetLanguages().Contains(language))
+            {
+                throw new Exception($"{language} is not a configured language.");
+            }
+
             var entries = new List<ResXEntry>();
             foreach (var item in Translations)
             {
                 var entry = new ResXEntry();
-                entry.Value = item.Texts[language].Value.Replace("\n", Environment.NewLine);
+                Text text;
+                if (!item.Texts.TryGetValue(language, out text) && !item.Texts.TryGetValue(NeutralLanguage, out text))
+                {
+                    throw new MissingTranslationsException(new List<string>() { $"{item.Id};{language}" });
+                }
+                entry.Id = item.Id;
+                entry.Value = text.Value;
 
                 if (options.HasFlag(SaveOptions.IncludeComments))
                 {
@@ -274,6 +296,29 @@ namespace fmdev.MuiDB
             }
 
             ResXParser.Write(filename, entries);
+        }
+
+        public ImportResult ImportResX(string filename, string language)
+        {
+            var result = new ImportResult();
+            var entries = ResXParser.Read(filename);
+
+            foreach (var e in entries)
+            {
+                var addOrUpdate = AddOrUpdateTranslation(e.Id, language, e.Value, "new", e.Comment);
+
+                if (addOrUpdate == AddOrUpdateResult.Added)
+                {
+                    result.AddedItems.Add(e.Id);
+                }
+
+                if (addOrUpdate == AddOrUpdateResult.Updated)
+                {
+                    result.UpdatedItems.Add(e.Id);
+                }
+            }
+
+            return result;
         }
     }
 }
