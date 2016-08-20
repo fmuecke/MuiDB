@@ -66,7 +66,7 @@ namespace fmdev.MuiDB
 
         public static void ImportFile(Args.ImportFileCommand cmd)
         {
-            var muidb = new File(cmd.Muidb);
+            var muidb = new File(cmd.Muidb, File.OpenMode.CreateIfMissing);
 
             switch (cmd.Type.ToLowerInvariant())
             {

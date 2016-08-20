@@ -33,11 +33,30 @@ namespace fmdev.MuiDB
         private XDocument doc;
         private XNamespace ns;
 
-        public File(string filename)
+        public File(string filename, OpenMode mode)
         {
             Filename = filename;
-            doc = System.IO.File.Exists(Filename) ? XDocument.Load(Filename) : XDocument.Parse(EmptyDocument);
+            if (mode == OpenMode.CreateIfMissing && !System.IO.File.Exists(Filename))
+            {
+                doc = XDocument.Parse(EmptyDocument);
+            }
+            else
+            {
+                doc = XDocument.Load(Filename);
+            }
+
             ns = doc.Root.Name.Namespace;
+        }
+
+        public File(string filename)
+            : this(filename, OpenMode.OpenExisting)
+        {
+        }
+
+        public enum OpenMode
+        {
+            OpenExisting,
+            CreateIfMissing
         }
 
         public string Filename { get; private set; }

@@ -22,7 +22,7 @@ namespace fmdev.MuiDB.Tests
         public void FileTest()
         {
             var filename = Guid.NewGuid().ToString();
-            var f = new MuiDB.File(filename);
+            var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
 
             f.Filename.Should().BeSameAs(filename);
             f.OutputFiles.Should().BeEmpty();
@@ -36,7 +36,7 @@ namespace fmdev.MuiDB.Tests
         {
             var filename = Guid.NewGuid().ToString();
             Assert.IsFalse(System.IO.File.Exists(filename), "new file must not exist before save");
-            var f = new MuiDB.File(filename);
+            var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
             f.Save();
             Assert.IsTrue(System.IO.File.Exists(filename), "new file must exist after save");
             XDocument.Load(filename).Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
@@ -50,24 +50,24 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
-        public void VerifyTest()
+        public void VerifyMissingTranslationsTest()
         {
             var f = new File("..\\..\\TestData\\MissingTranslations.xml");
 
-            bool thrown = false;
+            bool exceptionWasThrown = false;
             try
             {
                 f.Verify();
             }
             catch (MissingTranslationsException e)
             {
-                thrown = true;
+                exceptionWasThrown = true;
                 var expected = new List<string>() { "item1:de", "item2:en" };
                 e.Items.ShouldBeEquivalentTo(expected, "missing items should match expected");
             }
             finally
             {
-                thrown.Should().BeTrue("Verify must throw MissingTranslationsException on missing translations");
+                exceptionWasThrown.Should().BeTrue("Verify must throw MissingTranslationsException on missing translations");
             }
         }
 
