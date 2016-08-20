@@ -9,6 +9,7 @@ namespace fmdev.MuiDB
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Resources;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -71,7 +72,19 @@ namespace fmdev.MuiDB
             switch (cmd.Type.ToLowerInvariant())
             {
                 case "resx":
-                    throw new Exception("import from resx is not implemented, yet");
+                    var entries = ResXParser.Read(cmd.In);
+
+                    foreach (var e in entries)
+                    {
+                        if (cmd.Verbose)
+                        {
+                            Console.WriteLine($"adding/updating resource '{e.Id}': text='{e.Value}'");
+                        }
+
+                        muidb.AddOrUpdateTranslation(e.Id, cmd.Lang, e.Value, "new", e.Comment);
+                    }
+
+                    break;
 
                 case "xliff":
                     var doc = new XliffParser.XlfDocument(cmd.In);
@@ -127,13 +140,13 @@ namespace fmdev.MuiDB
         public static void ExportFile(Args.ExportFileCommand cmd)
         {
             var muidb = new File(cmd.MuiDB);
-            var mode = new File.ResXSaveMode();
-            mode.DoIncludeComments = !cmd.NoComments;
 
             switch (cmd.Type.ToLowerInvariant())
             {
                 case "resx":
-                    muidb.SaveAsResX(cmd.Out, cmd.Lang, mode);
+                    var options = !cmd.NoComments ? File.SaveOptions.IncludeComments : File.SaveOptions.None;
+
+                    muidb.SaveAsResX(cmd.Out, cmd.Lang, options);
                     if (cmd.Verbose)
                     {
                         Console.WriteLine($"exporting language '{cmd.Lang}' into file '{cmd.Out}'");

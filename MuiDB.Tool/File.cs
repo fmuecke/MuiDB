@@ -59,6 +59,14 @@ namespace fmdev.MuiDB
             CreateIfMissing
         }
 
+        [Flags]
+        public enum SaveOptions
+        {
+            None = 0,
+            SortEntries = 1,
+            IncludeComments = 2
+        }
+
         public string Filename { get; private set; }
 
         public IEnumerable<OutputFile> OutputFiles
@@ -230,70 +238,35 @@ namespace fmdev.MuiDB
 
         public void SaveAsResX(string fileName, string language)
         {
-            SaveAsResX(fileName, language, new ResXSaveMode());
+            SaveAsResX(fileName, language, SaveOptions.None);
         }
 
-        public void SaveAsResX(string fileName, string language, ResXSaveMode mode)
+        public void SaveAsResX(string filename, string language, SaveOptions options)
         {
-            using (var resx = new ResXResourceWriter(fileName))
+            var entries = new List<ResXEntry>();
+            foreach (var i in Translations)
             {
-                var nodes = new List<ResXDataNode>();
-                foreach (var i in Translations)
-                {
-                    var text = i.Texts[language].Value.Replace("\n", Environment.NewLine);
-                    var node = new ResXDataNode(i.Id, text);
+                var entry = new ResXEntry();
+                entry.Value = i.Texts[language].Value.Replace("\n", Environment.NewLine);
 
-                    if (mode.DoIncludeComments)
+                if (options.HasFlag(SaveOptions.IncludeComments))
+                {
+                    string comment;
+                    if (i.Comments.TryGetValue(language, out comment))
                     {
-                        string comment;
-                        if (i.Comments.TryGetValue(language, out comment))
-                        {
-                            node.Comment = comment.Replace("\n", Environment.NewLine);
-                        }
+                        entry.Comment = comment.Replace("\n", Environment.NewLine);
                     }
-
-                    nodes.Add(node);
                 }
 
-                if (mode.DoSort)
-                {
-                    nodes.Sort((x, y) =>
-                    {
-                        if (x.Name == null && y.Name == null)
-                        {
-                            return 0;
-                        }
-                        else if (x.Name == null)
-                        {
-                            return -1;
-                        }
-                        else if (y.Name == null)
-                        {
-                            return 1;
-                        }
-                        else
-                        {
-                            return x.Name.CompareTo(y.Name);
-                        }
-                    });
-                }
-
-                foreach (var node in nodes)
-                {
-                    resx.AddResource(node);
-                }
+                entries.Add(entry);
             }
-        }
 
-        public class ResXSaveMode
-        {
-            public ResXSaveMode()
+            if (options.HasFlag(SaveOptions.SortEntries))
             {
+                entries.Sort();
             }
 
-            public bool DoSort { get; set; } = false;
-
-            public bool DoIncludeComments { get; set; } = false;
+            ResXParser.Write(filename, entries);
         }
     }
 }

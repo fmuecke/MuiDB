@@ -60,6 +60,8 @@
     <Compile Include="MissingTranslationsException.cs" />
     <Compile Include="OutputFile.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ResXEntry.cs" />
+    <Compile Include="ResXParser.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Item.cs" />
