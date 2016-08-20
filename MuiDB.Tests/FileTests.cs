@@ -19,7 +19,7 @@ namespace fmdev.MuiDB.Tests
     public class FileTests
     {
         [TestMethod]
-        public void FileTest()
+        public void LoadFileTest()
         {
             var filename = Guid.NewGuid().ToString();
             var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
@@ -32,21 +32,28 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
-        public void AddOrUpdateTranslationTest()
+        public void SaveNewTest()
         {
             var filename = Guid.NewGuid().ToString();
             Assert.IsFalse(System.IO.File.Exists(filename), "new file must not exist before save");
             var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
             f.Save();
             Assert.IsTrue(System.IO.File.Exists(filename), "new file must exist after save");
-            XDocument.Load(filename).Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
+            var doc = XDocument.Load(filename);
+            doc.Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
+            System.IO.File.Delete(filename);
         }
 
         [TestMethod]
         [TestCategory("IO")]
-        public void SaveTest()
+        public void SaveExistingTest()
         {
-            Assert.Fail();
+            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            var tempFile = System.IO.Path.GetTempFileName();
+            f.Save(tempFile);
+            var doc = XDocument.Load(tempFile);
+            doc.Should().BeEquivalentTo(f.GetDocumentCopy(), "saved file should have same content as document in memory");
+            System.IO.File.Delete(tempFile);
         }
 
         [TestMethod]
@@ -72,13 +79,8 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void SaveAsResXTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public void SaveAsResXTest1()
         {
             Assert.Fail();
         }

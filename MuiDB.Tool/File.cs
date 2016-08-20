@@ -108,9 +108,9 @@ namespace fmdev.MuiDB
                     foreach (var t in i.Elements(ns + TextName))
                     {
                         var lang = t.Attribute(ns + LangName)?.Value;
-                        if (lang == null)
+                        if (string.IsNullOrWhiteSpace(lang))
                         {
-                            throw new Exception($"Item '{item.Id}' does not have a 'lang' attribute in the text element.");
+                            throw new Exception($"Item '{item.Id}' does not have a valid 'lang' attribute in the text element.");
                         }
                         var state = t.Attribute(ns + StateName)?.Value;
                         item.Texts[lang] = new Text() { State = state, Value = t.Value };
@@ -118,9 +118,10 @@ namespace fmdev.MuiDB
 
                     foreach (var c in i.Elements(ns + CommentName))
                     {
-                        var lang = c.Attribute(ns + LangName)?.Value;
-                        lang = lang ?? NeutralLanguage;
-                        item.Comments[lang] = c.Value;
+                        ////var lang = c.Attribute(ns + LangName)?.Value;
+                        ////lang = string.IsNullOrWhiteSpace(lang) ? NeutralLanguage : lang;
+                        ////item.Comments[lang] = c.Value;
+                        item.Comments[NeutralLanguage] = c.Value;
                     }
 
                     return item;
@@ -189,7 +190,8 @@ namespace fmdev.MuiDB
 
             if (!string.IsNullOrWhiteSpace(comment))
             {
-                var commentNodes = item.Elements(ns + CommentName).Where(c => c.Attribute(ns + LangName)?.Value == lang);
+                var commentNodes = item.Elements(ns + CommentName);
+                ////var commentNodes = item.Elements(ns + CommentName).Where(c => c.Attribute(ns + LangName)?.Value == lang);
                 XElement commentNode;
                 if (commentNodes.Any())
                 {
@@ -198,7 +200,7 @@ namespace fmdev.MuiDB
                 else
                 {
                     commentNode = new XElement(ns + CommentName);
-                    commentNode.SetAttributeValue(ns + LangName, lang);
+                    ////commentNode.SetAttributeValue(ns + LangName, lang);
                     item.Add(commentNode);
                 }
 
@@ -208,10 +210,15 @@ namespace fmdev.MuiDB
 
         public void Save()
         {
+            Save(Filename);
+        }
+
+        public void Save(string filename)
+        {
             var translationsNode = doc.Root.Element(ns + TranslationsName);
             var items = translationsNode.Elements(ns + ItemName).OrderBy(i => i.Attribute(ns + IdName).Value);
             translationsNode.ReplaceAll(items);
-            doc.Save(Filename);
+            doc.Save(filename);
         }
 
         // will throw exception if muidb is not valid
@@ -244,17 +251,17 @@ namespace fmdev.MuiDB
         public void SaveAsResX(string filename, string language, SaveOptions options)
         {
             var entries = new List<ResXEntry>();
-            foreach (var i in Translations)
+            foreach (var item in Translations)
             {
                 var entry = new ResXEntry();
-                entry.Value = i.Texts[language].Value.Replace("\n", Environment.NewLine);
+                entry.Value = item.Texts[language].Value.Replace("\n", Environment.NewLine);
 
                 if (options.HasFlag(SaveOptions.IncludeComments))
                 {
                     string comment;
-                    if (i.Comments.TryGetValue(language, out comment))
+                    if (item.Comments.TryGetValue(language, out comment) || item.Comments.TryGetValue(NeutralLanguage, out comment))
                     {
-                        entry.Comment = comment.Replace("\n", Environment.NewLine);
+                        entry.Comment = comment;
                     }
                 }
 
