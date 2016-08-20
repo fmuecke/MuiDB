@@ -42,19 +42,17 @@ To install `muidb-tool`, run the following command in the Package Manager Consol
 ## The typical translation workflow for a shared C#-Project <a name="typical-workflow"></a>
 
 Let's assume we want to ship our application with two languages *en* and *de* and 
-want to track the translation process for both.
-
-We then assume that the original development team also provides *both* initial translations:
+want to track the translation process for both. And of course our development team also provides *both* initial translations. And here's why:
   - In smaller companies you just don't have the resources
   - Agile software development teams don't want to be dependent upon external resources/processes
   - At least for non English native speakers it should not be a problem to support their mother
    tongue and English as a target language 
 
-Therefore we usually end up having at least three(!) languages in our project:
+Naturally we end up having at least three(!) languages in our project:
   - developer/source/fallback language: *"en"*
   - target languages: *en*, *de*
 
-So what does an actual workflow look like?
+**So, what does an actual workflow look like?**
 
 1. Add the new string resource in Visual Studio
 2. Import new string into translation database
@@ -76,17 +74,17 @@ translation. However most tools do not support syncing back to the source.
 </small>
 
 
-*Which files are involved?*
+**Which files are involved?**
 
->`Strings.resx` - the source string database  
->`Strings.en.resx` - the English target translation database   
->`Strings.de.resx` - the German target translation database  
->`Strings.en.xlf` - the English translation database  
->`Strings.de.xlf` - the German translation database
+- `Strings.resx` - the source string database  
+- `Strings.en.resx` - the English target translation database   
+- `Strings.de.resx` - the German target translation database  
+- `Strings.en.xlf` - the English translation database  
+- `Strings.de.xlf` - the German translation database
 
-*Which files are involved in a merge conflicts?*
+**Which files are involved in a merge conflicts?**
 
-> Apparently **all five of them**. Because almost every time a new string is added it is appended to the *end*
+Apparently **all five of them**. Because almost every time a new string is added it is appended to the *end*
  of the database. And this is also true for all the co-workers adding strings for this project every day. 
 
 
