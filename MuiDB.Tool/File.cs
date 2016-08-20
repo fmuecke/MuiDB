@@ -113,12 +113,19 @@ namespace fmdev.MuiDB
 
                     foreach (var t in i.Elements(ns + TextName))
                     {
+                        var state = t.Attribute(ns + StateName)?.Value;
+
                         var lang = t.Attribute(ns + LangName)?.Value;
                         if (string.IsNullOrWhiteSpace(lang))
                         {
-                            throw new Exception($"Item '{item.Id}' does not have a valid 'lang' attribute in the text element.");
+                            lang = NeutralLanguage;
                         }
-                        var state = t.Attribute(ns + StateName)?.Value;
+
+                        if (item.Texts.ContainsKey(lang))
+                        {
+                            throw new Exception($"Item '{item.Id}' has multiple entries for language '{lang}'.");
+                        }
+
                         item.Texts[lang] = new Text() { State = state, Value = t.Value };
                     }
 
@@ -275,6 +282,7 @@ namespace fmdev.MuiDB
                 {
                     throw new MissingTranslationsException(new List<string>() { $"{item.Id};{language}" });
                 }
+
                 entry.Id = item.Id;
                 entry.Value = text.Value;
 

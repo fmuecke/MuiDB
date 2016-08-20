@@ -87,6 +87,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\MissingTranslations.xml" />
+    <Content Include="TestData\Sample.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestData\Sample.de.resx" />
+    <EmbeddedResource Include="TestData\Sample.en.resx" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

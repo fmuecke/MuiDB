@@ -19,5 +19,9 @@
       <comment>Yes this really is MuiDB!</comment>
       <text lang="*" state="final">MuiDB</text>
     </item>
+    <item id="muidb2">
+      <comment>Yes this really is still MuiDB!</comment>
+      <text state="final">MuiDB as well</text>
+    </item>
   </translations>
 </muidb>
