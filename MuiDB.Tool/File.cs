@@ -16,6 +16,7 @@ namespace fmdev.MuiDB
     public class File
     {
         public const string EmptyDocument = "<muidb><files /><translations /></muidb>";
+        public const string NeutralLanguage = "*";
         private const string LanguagesName = "languages";
         private const string TranslationsName = "translations";
         private const string ItemName = "item";
@@ -26,6 +27,7 @@ namespace fmdev.MuiDB
         private const string StateName = "state";
         private const string OutputFilesName = "files";
         private const string ResxName = "resx";
+
         ////private const string XlfName = "files";
 
         private XDocument doc;
@@ -79,6 +81,10 @@ namespace fmdev.MuiDB
                     foreach (var t in i.Elements(ns + TextName))
                     {
                         var lang = t.Attribute(ns + LangName)?.Value;
+                        if (lang == null)
+                        {
+                            throw new Exception($"Item '{item.Id}' does not have a 'lang' attribute in the text element.");
+                        }
                         var state = t.Attribute(ns + StateName)?.Value;
                         item.Texts[lang] = new Text() { State = state, Value = t.Value };
                     }
@@ -86,6 +92,7 @@ namespace fmdev.MuiDB
                     foreach (var c in i.Elements(ns + CommentName))
                     {
                         var lang = c.Attribute(ns + LangName)?.Value;
+                        lang = lang ?? NeutralLanguage;
                         item.Comments[lang] = c.Value;
                     }
 
@@ -189,7 +196,7 @@ namespace fmdev.MuiDB
             {
                 foreach (var l in langs)
                 {
-                    if (!item.Texts.ContainsKey(l))
+                    if (!item.Texts.ContainsKey(l) && !item.Texts.ContainsKey(NeutralLanguage))
                     {
                         missingTranslations.Add($"{item.Id}:{l}");
                     }

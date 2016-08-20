@@ -11,7 +11,7 @@ namespace fmdev.MuiDB
     using System.Text;
 
     [Serializable]
-    internal class MissingTranslationsException : Exception
+    public class MissingTranslationsException : Exception
     {
         private List<string> items = new List<string>();
 
@@ -54,15 +54,9 @@ namespace fmdev.MuiDB
                 var sb = new StringBuilder();
                 foreach (var i in Items)
                 {
-                    string id;
-                    string lang = "unknown";
-                    var splitted = i.Split(':');
-                    id = splitted[0];
-                    if (splitted.Length > 0)
-                    {
-                        lang = splitted[1];
-                    }
-
+                    var tokens = i.Split(':');
+                    var id = tokens[0];
+                    var lang = tokens.Length == 1 ? "unknown" : tokens[1];
                     sb.AppendLine($"'{id}' misses a translation in language '{lang}'.");
                 }
 

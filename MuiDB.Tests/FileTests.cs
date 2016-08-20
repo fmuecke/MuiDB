@@ -52,7 +52,23 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void VerifyTest()
         {
-            Assert.Fail();
+            var f = new File("..\\..\\TestData\\MissingTranslations.xml");
+
+            bool thrown = false;
+            try
+            {
+                f.Verify();
+            }
+            catch (MissingTranslationsException e)
+            {
+                thrown = true;
+                var expected = new List<string>() { "item1:de", "item2:en" };
+                e.Items.ShouldBeEquivalentTo(expected, "missing items should match expected");
+            }
+            finally
+            {
+                thrown.Should().BeTrue("Verify must throw MissingTranslationsException on missing translations");
+            }
         }
 
         [TestMethod]
