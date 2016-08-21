@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>MuiDB.Tests.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\MuiDB.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>MuiDB.Tests.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\MuiDB.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=4.13.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
@@ -74,10 +74,14 @@
       <Project>{18DDCE23-D671-4B26-814D-CAD5A840CC10}</Project>
       <Name>MuiDB.Tool</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MuiDB\MuiDB.csproj">
+      <Project>{03c8bc90-d5f2-42d8-94f8-46b5124d81a3}</Project>
+      <Name>MuiDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" />
-    <None Include="MuiDB.Tests.ruleset" />
+    <None Include="..\MuiDB.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

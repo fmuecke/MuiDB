@@ -4,13 +4,14 @@
 // </copyright>
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following
+// General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("muidb-tool")]
-[assembly: AssemblyDescription("MuiDB conversion commandline tool")]
+[assembly: AssemblyTitle("MuiDB")]
+[assembly: AssemblyDescription("Multilingual user interface string database")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Florian Mücke")]
 [assembly: AssemblyProduct("MuiDB")]
@@ -24,7 +25,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("18ddce23-d671-4b26-814d-cad5a840cc10")]
+[assembly: Guid("03c8bc90-d5f2-42d8-94f8-46b5124d81a3")]
 
 // Version information for an assembly consists of the following four values:
 //
