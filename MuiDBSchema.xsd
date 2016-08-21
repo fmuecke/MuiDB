@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.5"
+    xmlns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:this="http://github.com/fmuecke/muidb-schema.xsd"
+    targetNamespace="http://github.com/fmuecke/muidb-schema.xsd">
+  
+  <xs:simpleType name="File_type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="resx" />
+      <xs:enumeration value="xliff" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="State_type">
+    <xs:restriction base="xs:string">
+        <xs:enumeration value="new" />
+        <xs:enumeration value="translated" />
+        <xs:enumeration value="reviewed" />
+      <xs:enumeration value="final" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="muidb">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="target-files">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="file">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="lang" type="xs:string" />
+                      <xs:attribute name="type" type="this:File_type" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="translations">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="item">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="comment" maxOccurs="1" minOccurs="0">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute name="lang" type="xs:string" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" name="text">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute name="lang" type="xs:string" use="required"/>
+                            <xs:attribute name="state" type="this:State_type" use="required"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="languages" type="xs:string" use="required"/>
+      <xs:attribute name="version" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
