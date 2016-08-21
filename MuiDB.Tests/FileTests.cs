@@ -91,6 +91,41 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
+        public void ExportInvalidLanguageTest()
+        {
+            var f = new File("..\\..\\TestData\\Sample.xml");
+            f.GetLanguages().Should().NotContain("fr");
+
+            try
+            {
+                f.ExportResX("sdfs", "fr");
+                Assert.Fail("Export of unknown language must lead to ArgumentException");
+            }
+            catch (ArgumentException e)
+            {
+                e.Message.ShouldBeEquivalentTo("fr is not a configured language.");
+            }
+        }
+
+        [TestMethod]
+        public void ImportNewLanguageTest()
+        {
+            var f = new File("new", File.OpenMode.CreateIfMissing);
+            f.GetLanguages().Should().NotContain("de");
+            f.ImportResX("..\\..\\TestData\\Sample.de.resx", "de");
+            f.GetLanguages().Should().Contain("de");
+        }
+
+        [TestMethod]
+        public void ImportExistingLanguageTest()
+        {
+            var f = new File("..\\..\\TestData\\Sample.xml");
+            f.GetLanguages().Should().Contain("de");
+            f.ImportResX("..\\..\\TestData\\Sample.de.resx", "de");
+            f.GetLanguages().Should().Contain("de");
+        }
+
+        [TestMethod]
         public void ExportResXTest()
         {
             var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");

@@ -270,7 +270,7 @@ namespace fmdev.MuiDB
         {
             if (!GetLanguages().Contains(language))
             {
-                throw new Exception($"{language} is not a configured language.");
+                throw new ArgumentException($"{language} is not a configured language.");
             }
 
             var entries = new List<ResXEntry>();
@@ -324,6 +324,12 @@ namespace fmdev.MuiDB
                 {
                     result.UpdatedItems.Add(e.Id);
                 }
+            }
+
+            if (!GetLanguages().Contains(language))
+            {
+                var langs = doc.Root.Attribute(ns + LanguagesName)?.Value;
+                doc.Root.SetAttributeValue(ns + LanguagesName, langs + "," + language);
             }
 
             return result;
