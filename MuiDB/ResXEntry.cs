@@ -17,7 +17,12 @@ namespace fmdev.MuiDB
 
         public int CompareTo(object obj)
         {
-            return Id.CompareTo(obj);
+            if (obj is ResXEntry)
+            {
+                return Id.CompareTo((obj as ResXEntry).Id);
+            }
+
+            return Id.CompareTo(obj.ToString());
         }
     }
 }

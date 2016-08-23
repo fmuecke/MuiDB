@@ -133,7 +133,7 @@ namespace fmdev.MuiDB.Tests
             var tempFile_de = System.IO.Path.GetTempFileName();
             try
             {
-                f.ExportResX(tempFile_en, "en", File.SaveOptions.IncludeComments);
+                f.ExportResX(tempFile_en, "en", File.SaveOptions.IncludeComments | File.SaveOptions.SortEntries);
                 f.ExportResX(tempFile_de, "de", File.SaveOptions.IncludeComments);
 
                 var content_en = System.IO.File.ReadAllText(tempFile_en);
@@ -141,8 +141,8 @@ namespace fmdev.MuiDB.Tests
                 var expected_en = System.IO.File.ReadAllText("..\\..\\TestData\\Sample.en.resx");
                 var expected_de = System.IO.File.ReadAllText("..\\..\\TestData\\Sample.de.resx");
 
-                content_en.ShouldBeEquivalentTo(expected_en);
-                content_de.ShouldBeEquivalentTo(expected_de);
+                content_en.ShouldBeEquivalentTo(expected_en, "Result must be sorted and contain the right values");
+                content_de.ShouldBeEquivalentTo(expected_de, "Result must be sorted and contain the right values");
             }
             finally
             {

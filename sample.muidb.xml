@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns='http://github.com/fmuecke/muidb-schema.xsd' version='alpha' languages="en,de">
+<muidb xmlns="http://github.com/fmuecke/muidb-schema.xsd" version="alpha" languages="en,de">
   <target-files>
     <file type="resx" lang="en">Strings.resx</file>
     <file type="resx" lang="en">Strings.en.resx</file>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb languages="en,de">
+<muidb languages="en,de" xmlns="http://github.com/fmuecke/muidb-schema.xsd">
   <files>
     <resx lang="en">Strings.resx</resx>
     <resx lang="en">Strings.en.resx</resx>
@@ -10,7 +10,7 @@
       <text lang="en" state="final">Cancel</text>
       <text lang="de" state="final">Abbrechen</text>
     </item>
-    <item id="XItems">
+    <item id="xItems">
       <comment lang="en">Items with number with thousands separator</comment>
       <text lang="en" state="final">{0:N0} items</text>
       <text lang="de" state="final">{0:N0} Einträge</text>

@@ -7,11 +7,15 @@ namespace fmdev.MuiDB
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Resources;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
     using System.Xml.Linq;
+    using System.Xml.Schema;
 
     public class File
     {
@@ -96,7 +100,7 @@ namespace fmdev.MuiDB
                     return new OutputFile()
                     {
                         Name = f.Value,
-                        Lang = f.Attribute(ns + LangName)?.Value
+                        Lang = f.Attribute(LangName)?.Value
                     };
                 }).ToList();
             }
@@ -113,9 +117,9 @@ namespace fmdev.MuiDB
 
                     foreach (var t in i.Elements(ns + TextName))
                     {
-                        var state = t.Attribute(ns + StateName)?.Value;
+                        var state = t.Attribute(StateName)?.Value;
 
-                        var lang = t.Attribute(ns + LangName)?.Value;
+                        var lang = t.Attribute(LangName)?.Value;
                         if (string.IsNullOrWhiteSpace(lang))
                         {
                             lang = NeutralLanguage;
@@ -131,7 +135,7 @@ namespace fmdev.MuiDB
 
                     foreach (var c in i.Elements(ns + CommentName))
                     {
-                        ////var lang = c.Attribute(ns + LangName)?.Value;
+                        ////var lang = c.Attribute(LangName)?.Value;
                         ////lang = string.IsNullOrWhiteSpace(lang) ? NeutralLanguage : lang;
                         ////item.Comments[lang] = c.Value;
                         item.Comments[NeutralLanguage] = c.Value;
@@ -149,7 +153,7 @@ namespace fmdev.MuiDB
 
         public List<string> GetLanguages()
         {
-            var langs = doc.Root.Attribute(ns + LanguagesName)?.Value;
+            var langs = doc.Root.Attribute(LanguagesName)?.Value;
             if (langs == null || string.IsNullOrWhiteSpace(langs))
             {
                 return new List<string>();
@@ -172,7 +176,7 @@ namespace fmdev.MuiDB
                 doc.Root.Add(translationsNode);
             }
 
-            var items = translationsNode.Elements(ns + ItemName).Where(i => i.Attribute(ns + IdName)?.Value == id);
+            var items = translationsNode.Elements(ns + ItemName).Where(i => i.Attribute(IdName)?.Value == id);
             XElement item;
             AddOrUpdateResult result;
             if (items.Any())
@@ -188,7 +192,7 @@ namespace fmdev.MuiDB
                 result = AddOrUpdateResult.Added;
             }
 
-            var textNodes = item.Elements(ns + TextName).Where(t => t.Attribute(ns + LangName)?.Value == lang);
+            var textNodes = item.Elements(ns + TextName).Where(t => t.Attribute(LangName)?.Value == lang);
             XElement textNode;
             if (textNodes.Any())
             {
@@ -207,7 +211,7 @@ namespace fmdev.MuiDB
             if (!string.IsNullOrWhiteSpace(comment))
             {
                 var commentNodes = item.Elements(ns + CommentName);
-                ////var commentNodes = item.Elements(ns + CommentName).Where(c => c.Attribute(ns + LangName)?.Value == lang);
+                ////var commentNodes = item.Elements(ns + CommentName).Where(c => c.Attribute(LangName)?.Value == lang);
                 XElement commentNode;
                 if (commentNodes.Any())
                 {
@@ -234,7 +238,7 @@ namespace fmdev.MuiDB
         public void Save(string filename)
         {
             var translationsNode = doc.Root.Element(ns + TranslationsName);
-            var items = translationsNode.Elements(ns + ItemName).OrderBy(i => i.Attribute(ns + IdName).Value);
+            var items = translationsNode.Elements(ns + ItemName).OrderBy(i => i.Attribute(IdName).Value);
             translationsNode.ReplaceAll(items);
             doc.Save(filename);
         }
@@ -328,8 +332,8 @@ namespace fmdev.MuiDB
 
             if (!GetLanguages().Contains(language))
             {
-                var langs = doc.Root.Attribute(ns + LanguagesName)?.Value;
-                doc.Root.SetAttributeValue(ns + LanguagesName, langs + "," + language);
+                var langs = doc.Root.Attribute(LanguagesName)?.Value;
+                doc.Root.SetAttributeValue(LanguagesName, langs + "," + language);
             }
 
             return result;

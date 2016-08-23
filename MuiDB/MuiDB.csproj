@@ -58,6 +58,10 @@
   <ItemGroup>
     <None Include="MuiDB.nuspec" />
     <None Include="..\MuiDB.ruleset" />
+    <EmbeddedResource Include="MuiDBSchema.xsd">
+      <SubType>Designer</SubType>
+      <LogicalName>MuiDBSchema.xsd</LogicalName>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>

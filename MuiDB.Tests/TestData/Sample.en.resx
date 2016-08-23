@@ -120,12 +120,12 @@
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="XItems" xml:space="preserve">
-    <value>{0:N0} items</value>
-    <comment>Items with number with thousands separator</comment>
-  </data>
   <data name="muidb" xml:space="preserve">
     <value>MuiDB</value>
     <comment>Yes this really is MuiDB!</comment>
+  </data>
+  <data name="xItems" xml:space="preserve">
+    <value>{0:N0} items</value>
+    <comment>Items with number with thousands separator</comment>
   </data>
 </root>

@@ -120,7 +120,7 @@
   <data name="ButtonCancel" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
-  <data name="XItems" xml:space="preserve">
+  <data name="xItems" xml:space="preserve">
     <value>{0:N0} Einträge</value>
     <comment>Items with number with thousands separator</comment>
   </data>
