@@ -246,6 +246,30 @@ namespace fmdev.MuiDB
         // will throw exception if muidb is not valid
         public void Verify()
         {
+            var assembly = Assembly.GetExecutingAssembly();
+            using (var schemaStream = assembly.GetManifestResourceStream("MuiDBSchema.xsd"))
+            {
+                var schemas = new XmlSchemaSet();
+                using (var schemaReader = XmlReader.Create(schemaStream))
+                {
+                    schemas.Add(null, schemaReader);
+                }
+
+                //var schema = XmlSchema.Read(schemaStream, null);
+                //schemas.Add(schema);
+
+                var msg = string.Empty;
+                doc.Validate(schemas, (o, e) =>
+                {
+                    msg += e.Message + Environment.NewLine;
+                });
+
+                if (!string.IsNullOrWhiteSpace(msg))
+                {
+                    throw new Exception(msg);
+                }
+            }
+
             var missingTranslations = new List<string>();
             var langs = GetLanguages();
             foreach (var item in Translations)
