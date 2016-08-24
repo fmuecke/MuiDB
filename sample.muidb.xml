@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/muidb-schema.xsd" version="alpha" languages="en,de">
-  <target-files>
-    <file type="resx" lang="en">Strings.resx</file>
-    <file type="resx" lang="en">Strings.en.resx</file>
-    <file type="resx" lang="de">Strings.de.resx</file>
-  </target-files>
-  <translations>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="alpha">
+  <settings>
+    <languages>en;de</languages>
+    <out-file type="resx" lang="en">Strings.resx</out-file>
+    <out-file type="resx" lang="en">Strings.en.resx</out-file>
+    <out-file type="resx" lang="de">Strings.de.resx</out-file>
+  </settings>
+  <strings>
     <item id="ButtonCancel">
       <text lang="en" state="final">Cancel</text>
       <text lang="de" state="new">Abbrechen</text>
@@ -23,5 +24,5 @@
       <comment>Yes this really is still MuiDB!</comment>
       <text lang="*" state="final">MuiDB as well</text>
     </item>
-  </translations>
+  </strings>
 </muidb>

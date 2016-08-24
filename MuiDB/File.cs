@@ -19,18 +19,18 @@ namespace fmdev.MuiDB
 
     public class File
     {
-        public const string EmptyDocument = "<muidb><files /><translations /></muidb>";
+        public const string EmptyDocument = "<muidb><settings /><strings /></muidb>";
         public const string NeutralLanguage = "*";
-        private const string LanguagesName = "languages";
-        private const string TranslationsName = "translations";
-        private const string ItemName = "item";
-        private const string IdName = "id";
-        private const string CommentName = "comment";
-        private const string TextName = "text";
-        private const string LangName = "lang";
-        private const string StateName = "state";
-        private const string OutputFilesName = "files";
-        private const string ResxName = "resx";
+        private const string LanguagesElementName = "languages";
+        private const string StringsElementName = "strings";
+        private const string ItemElementName = "item";
+        private const string IdAttributeName = "id";
+        private const string CommentElementName = "comment";
+        private const string TextElementName = "text";
+        private const string LangAttributeName = "lang";
+        private const string StateAttributeName = "state";
+        private const string SettingsElementName = "settings";
+        private const string OutFileElementName = "out-file";
 
         ////private const string XlfName = "files";
 
@@ -83,13 +83,13 @@ namespace fmdev.MuiDB
         {
             get
             {
-                var filesNode = doc.Root.Element(ns + OutputFilesName);
+                var filesNode = doc.Root.Element(ns + SettingsElementName);
                 if (filesNode == null)
                 {
                     return new List<OutputFile>();
                 }
 
-                var fileNodes = filesNode.Elements(ns + ResxName);
+                var fileNodes = filesNode.Elements(ns + OutFileElementName);
                 if (!fileNodes.Any())
                 {
                     return new List<OutputFile>();
@@ -100,26 +100,26 @@ namespace fmdev.MuiDB
                     return new OutputFile()
                     {
                         Name = f.Value,
-                        Lang = f.Attribute(LangName)?.Value
+                        Lang = f.Attribute(LangAttributeName)?.Value
                     };
                 }).ToList();
             }
         }
 
-        public IEnumerable<Item> Translations
+        public IEnumerable<Item> Strings
         {
             get
             {
-                return doc.Descendants(ns + ItemName).Select(i =>
+                return doc.Descendants(ns + ItemElementName).Select(i =>
                 {
                     var item = new Item();
-                    item.Id = i.Attribute(IdName)?.Value;
+                    item.Id = i.Attribute(IdAttributeName)?.Value;
 
-                    foreach (var t in i.Elements(ns + TextName))
+                    foreach (var t in i.Elements(ns + TextElementName))
                     {
-                        var state = t.Attribute(StateName)?.Value;
+                        var state = t.Attribute(StateAttributeName)?.Value;
 
-                        var lang = t.Attribute(LangName)?.Value;
+                        var lang = t.Attribute(LangAttributeName)?.Value;
                         if (string.IsNullOrWhiteSpace(lang))
                         {
                             lang = NeutralLanguage;
@@ -133,7 +133,7 @@ namespace fmdev.MuiDB
                         item.Texts[lang] = new Text() { State = state, Value = t.Value };
                     }
 
-                    foreach (var c in i.Elements(ns + CommentName))
+                    foreach (var c in i.Elements(ns + CommentElementName))
                     {
                         ////var lang = c.Attribute(LangName)?.Value;
                         ////lang = string.IsNullOrWhiteSpace(lang) ? NeutralLanguage : lang;
@@ -153,30 +153,49 @@ namespace fmdev.MuiDB
 
         public List<string> GetLanguages()
         {
-            var langs = doc.Root.Attribute(LanguagesName)?.Value;
+            var langs = doc.Root.Element(ns + SettingsElementName).Element(ns + LanguagesElementName)?.Value;
             if (langs == null || string.IsNullOrWhiteSpace(langs))
             {
                 return new List<string>();
             }
 
-            return langs.Split(',').Select(l => l.Trim()).ToList();
+            return langs.Split(';').Select(l => l.Trim()).ToList();
         }
 
         public void SetLanguages(IEnumerable<string> languages)
         {
-            doc.Root.SetAttributeValue(ns + LanguagesName, string.Join(",", languages));
-        }
-
-        public AddOrUpdateResult AddOrUpdateTranslation(string id, string lang, string text, string state, string comment)
-        {
-            var translationsNode = doc.Root.Element(ns + TranslationsName);
-            if (translationsNode == null)
+            var settingsNode = doc.Root.Element(ns + SettingsElementName);
+            XElement langsNode;
+            if (settingsNode == null)
             {
-                translationsNode = new XElement(ns + TranslationsName);
-                doc.Root.Add(translationsNode);
+                settingsNode = new XElement(ns + SettingsElementName);
+                langsNode = new XElement(ns + LanguagesElementName);
+                settingsNode.Add(langsNode);
+                doc.Root.Add(settingsNode);
+            }
+            else
+            {
+                langsNode = settingsNode.Element(ns + LanguagesElementName);
+                if (langsNode == null)
+                {
+                    langsNode = new XElement(ns + LanguagesElementName);
+                    settingsNode.AddFirst(langsNode);
+                }
             }
 
-            var items = translationsNode.Elements(ns + ItemName).Where(i => i.Attribute(IdName)?.Value == id);
+            langsNode.SetValue(string.Join(";", languages));
+        }
+
+        public AddOrUpdateResult AddOrUpdateString(string id, string lang, string text, string state, string comment)
+        {
+            var stringsNode = doc.Root.Element(ns + StringsElementName);
+            if (stringsNode == null)
+            {
+                stringsNode = new XElement(ns + StringsElementName);
+                doc.Root.Add(stringsNode);
+            }
+
+            var items = stringsNode.Elements(ns + ItemElementName).Where(i => i.Attribute(IdAttributeName)?.Value == id);
             XElement item;
             AddOrUpdateResult result;
             if (items.Any())
@@ -186,13 +205,13 @@ namespace fmdev.MuiDB
             }
             else
             {
-                item = new XElement(ns + ItemName);
-                item.SetAttributeValue(ns + IdName, id);
-                translationsNode.Add(item);
+                item = new XElement(ns + ItemElementName);
+                item.SetAttributeValue(ns + IdAttributeName, id);
+                stringsNode.Add(item);
                 result = AddOrUpdateResult.Added;
             }
 
-            var textNodes = item.Elements(ns + TextName).Where(t => t.Attribute(LangName)?.Value == lang);
+            var textNodes = item.Elements(ns + TextElementName).Where(t => t.Attribute(LangAttributeName)?.Value == lang);
             XElement textNode;
             if (textNodes.Any())
             {
@@ -200,17 +219,17 @@ namespace fmdev.MuiDB
             }
             else
             {
-                textNode = new XElement(ns + TextName);
-                textNode.SetAttributeValue(ns + LangName, lang);
+                textNode = new XElement(ns + TextElementName);
+                textNode.SetAttributeValue(ns + LangAttributeName, lang);
                 item.Add(textNode);
             }
 
             textNode.SetValue(text);
-            textNode.SetAttributeValue(ns + StateName, state);
+            textNode.SetAttributeValue(ns + StateAttributeName, state);
 
             if (!string.IsNullOrWhiteSpace(comment))
             {
-                var commentNodes = item.Elements(ns + CommentName);
+                var commentNodes = item.Elements(ns + CommentElementName);
                 ////var commentNodes = item.Elements(ns + CommentName).Where(c => c.Attribute(LangName)?.Value == lang);
                 XElement commentNode;
                 if (commentNodes.Any())
@@ -219,7 +238,7 @@ namespace fmdev.MuiDB
                 }
                 else
                 {
-                    commentNode = new XElement(ns + CommentName);
+                    commentNode = new XElement(ns + CommentElementName);
                     ////commentNode.SetAttributeValue(ns + LangName, lang);
                     item.Add(commentNode);
                 }
@@ -237,42 +256,27 @@ namespace fmdev.MuiDB
 
         public void Save(string filename)
         {
-            var translationsNode = doc.Root.Element(ns + TranslationsName);
-            var items = translationsNode.Elements(ns + ItemName).OrderBy(i => i.Attribute(IdName).Value);
-            translationsNode.ReplaceAll(items);
+            var stringsNode = doc.Root.Element(ns + StringsElementName);
+            var items = stringsNode.Elements(ns + ItemElementName).OrderBy(i => i.Attribute(IdAttributeName).Value);
+            stringsNode.ReplaceAll(items);
             doc.Save(filename);
         }
 
         // will throw exception if muidb is not valid
-        public void Verify()
+        public void Validate()
         {
             var assembly = Assembly.GetExecutingAssembly();
             using (var schemaStream = assembly.GetManifestResourceStream("MuiDBSchema.xsd"))
             {
                 var schemas = new XmlSchemaSet();
-                using (var schemaReader = XmlReader.Create(schemaStream))
-                {
-                    schemas.Add(null, schemaReader);
-                }
-
-                //var schema = XmlSchema.Read(schemaStream, null);
-                //schemas.Add(schema);
-
-                var msg = string.Empty;
-                doc.Validate(schemas, (o, e) =>
-                {
-                    msg += e.Message + Environment.NewLine;
-                });
-
-                if (!string.IsNullOrWhiteSpace(msg))
-                {
-                    throw new Exception(msg);
-                }
+                var schema = XmlSchema.Read(schemaStream, null);
+                schemas.Add(schema);
+                doc.Validate(schemas, null);
             }
 
             var missingTranslations = new List<string>();
             var langs = GetLanguages();
-            foreach (var item in Translations)
+            foreach (var item in Strings)
             {
                 foreach (var l in langs)
                 {
@@ -302,7 +306,7 @@ namespace fmdev.MuiDB
             }
 
             var entries = new List<ResXEntry>();
-            foreach (var item in Translations)
+            foreach (var item in Strings)
             {
                 var entry = new ResXEntry();
                 Text text;
@@ -341,7 +345,7 @@ namespace fmdev.MuiDB
 
             foreach (var e in entries)
             {
-                var addOrUpdate = AddOrUpdateTranslation(e.Id, language, e.Value, "new", e.Comment);
+                var addOrUpdate = AddOrUpdateString(e.Id, language, e.Value, "new", e.Comment);
 
                 if (addOrUpdate == AddOrUpdateResult.Added)
                 {
@@ -356,8 +360,9 @@ namespace fmdev.MuiDB
 
             if (!GetLanguages().Contains(language))
             {
-                var langs = doc.Root.Attribute(LanguagesName)?.Value;
-                doc.Root.SetAttributeValue(LanguagesName, langs + "," + language);
+                var langs = GetLanguages();
+                langs.Add(language);
+                SetLanguages(langs);
             }
 
             return result;

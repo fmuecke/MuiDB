@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.5"
-    xmlns="http://tempuri.org/XMLSchema.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:this="http://github.com/fmuecke/muidb-schema.xsd"
-    targetNamespace="http://github.com/fmuecke/muidb-schema.xsd">
+  xmlns="http://tempuri.org/XMLSchema.xsd"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:this="http://github.com/fmuecke/MuiDB"
+  targetNamespace="http://github.com/fmuecke/MuiDB">
   
   <xs:simpleType name="File_type">
     <xs:restriction base="xs:string">
@@ -24,10 +24,12 @@
   <xs:element name="muidb">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="target-files">
+        <xs:element name="settings">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="file">
+              <!--<xs:element maxOccurs="1" minOccurs="0" name="title" type="xs:string" />-->
+              <xs:element maxOccurs="1" minOccurs="1" name="languages" type="xs:string"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="out-file">
                 <xs:complexType>
                   <xs:simpleContent>
                     <xs:extension base="xs:string">
@@ -40,7 +42,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="translations">
+        <xs:element name="strings">
           <xs:complexType>
             <xs:sequence>
               <xs:element maxOccurs="unbounded" name="item">
@@ -73,7 +75,6 @@
           </xs:complexType>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="languages" type="xs:string" use="required"/>
       <xs:attribute name="version" type="xs:string" />
     </xs:complexType>
   </xs:element>

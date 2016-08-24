@@ -78,14 +78,14 @@ namespace fmdev.MuiDB
             public bool Verbose { get; set; }
         }
 
-        [Description("Verify MuiDB file (optionally sorts items).")]
-        public class VerifyCommand : Command
+        [Description("Validate MuiDB schema and data (optionally apply format).")]
+        public class ValidateCommand : Command
         {
-            [CommandArg(HelpText = "The MuiDB file to format", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file to validate", IsRequired = true)]
             public string MuiDB { get; set; }
 
-            [CommandArg(HelpText = "Format MuiDB file (will fix translation item sort order).")]
-            public bool Format { get; set; }
+            [CommandArg(HelpText = "Apply default format to MuiDB file (will fix item sort order).")]
+            public bool ApplyFormat { get; set; }
         }
 
         [Description("Display version and license information.")]

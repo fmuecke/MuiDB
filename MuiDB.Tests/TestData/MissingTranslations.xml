@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb languages="en,de">
-  <files />
-  <translations>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="alpha">
+  <settings>
+    <languages>en;de</languages>
+  </settings>
+  <strings>
     <item id="item0">
       <text lang="en" state="final">Cancel</text>
       <text lang="de" state="final">Cancel</text>
@@ -16,5 +18,5 @@
       <comment>Yes this really is MuiDB!</comment>
       <text lang="*" state="final">MuiDB</text>
     </item>
-  </translations>
+  </strings>
 </muidb>

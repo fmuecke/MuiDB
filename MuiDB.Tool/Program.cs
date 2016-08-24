@@ -26,7 +26,7 @@ namespace fmdev.MuiDB
             var itemCount = 0;
             var langs = new HashSet<string>();
 
-            foreach (var i in muidb.Translations)
+            foreach (var i in muidb.Strings)
             {
                 ++itemCount;
                 commentCount += i.Comments.Count();
@@ -112,7 +112,7 @@ namespace fmdev.MuiDB
                             Console.WriteLine($"adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
                         }
 
-                        muidb.AddOrUpdateTranslation(id, cmd.Lang, unit.Target, unit.Optional.TargetState, comment);
+                        muidb.AddOrUpdateString(id, cmd.Lang, unit.Target, unit.Optional.TargetState, comment);
                     }
 
                     break;
@@ -148,7 +148,6 @@ namespace fmdev.MuiDB
             {
                 case "resx":
                     var options = !cmd.NoComments ? File.SaveOptions.IncludeComments : File.SaveOptions.None;
-
                     muidb.ExportResX(cmd.Out, cmd.Lang, options);
                     if (cmd.Verbose)
                     {
@@ -165,11 +164,14 @@ namespace fmdev.MuiDB
             }
         }
 
-        public static void Verify(Args.VerifyCommand cmd)
+        public static void Verify(Args.ValidateCommand cmd)
         {
             var muidb = new File(cmd.MuiDB);
-            muidb.Verify();
-            muidb.Save();
+            muidb.Validate();
+            if (cmd.ApplyFormat)
+            {
+                muidb.Save();
+            }
         }
 
         private static void Main(string[] args)
@@ -195,9 +197,9 @@ namespace fmdev.MuiDB
                     {
                         ExportFile(argsParser.Result as Args.ExportFileCommand);
                     }
-                    else if (argsParser.Result is Args.VerifyCommand)
+                    else if (argsParser.Result is Args.ValidateCommand)
                     {
-                        Verify(argsParser.Result as Args.VerifyCommand);
+                        Verify(argsParser.Result as Args.ValidateCommand);
                     }
                     else if (argsParser.Result is Args.AboutCommand)
                     {

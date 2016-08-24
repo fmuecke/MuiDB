@@ -10,6 +10,7 @@ namespace fmdev.MuiDB.Tests
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Xml;
     using System.Xml.Linq;
     using FluentAssertions;
     using fmdev.MuiDB;
@@ -26,7 +27,7 @@ namespace fmdev.MuiDB.Tests
 
             f.Filename.Should().BeSameAs(filename);
             f.OutputFiles.Should().BeEmpty();
-            f.Translations.Should().BeEmpty();
+            f.Strings.Should().BeEmpty();
             f.GetDocumentCopy().ToString(System.Xml.Linq.SaveOptions.DisableFormatting)
                 .Should().BeEquivalentTo(MuiDB.File.EmptyDocument, "file should be created if it does not exist and therefore match match default empty file");
         }
@@ -76,13 +77,16 @@ namespace fmdev.MuiDB.Tests
             bool exceptionWasThrown = false;
             try
             {
-                f.Verify();
+                f.Validate();
             }
             catch (MissingTranslationsException e)
             {
                 exceptionWasThrown = true;
                 var expected = new List<string>() { "item1:de", "item2:en" };
                 e.Items.ShouldBeEquivalentTo(expected, "missing items should match expected");
+            }
+            catch (Exception e)
+            {
             }
             finally
             {
