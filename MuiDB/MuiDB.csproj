@@ -56,12 +56,15 @@
     <Compile Include="Text.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MuiDB.nuspec" />
+    <None Include="MuiDB.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\MuiDB.ruleset" />
-    <EmbeddedResource Include="MuiDBSchema.xsd">
+    <EmbeddedResource Include="muidb.xsd">
       <SubType>Designer</SubType>
       <LogicalName>MuiDBSchema.xsd</LogicalName>
     </EmbeddedResource>
+    <None Include="MuiDB.Schema.nuspec" />
     <None Include="packages.config" />
     <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
