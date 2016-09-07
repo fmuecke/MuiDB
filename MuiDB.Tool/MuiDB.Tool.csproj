@@ -40,8 +40,8 @@
       <HintPath>..\packages\fmdev.ArgsParser.0.2.3\lib\net46\fmdev.ArgsParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FMDev.XliffParser, Version=0.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\fmdev.XliffParser.0.4.2\lib\net46\FMDev.XliffParser.dll</HintPath>
+    <Reference Include="fmdev.XliffParser, Version=0.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\fmdev.XliffParser.0.4.4\lib\net46\fmdev.XliffParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

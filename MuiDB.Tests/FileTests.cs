@@ -85,7 +85,7 @@ namespace fmdev.MuiDB.Tests
                 var expected = new List<string>() { "item1:de", "item2:en" };
                 e.Items.ShouldBeEquivalentTo(expected, "missing items should match expected");
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             finally

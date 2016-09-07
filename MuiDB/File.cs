@@ -16,6 +16,7 @@ namespace fmdev.MuiDB
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Schema;
+    using ResX;
 
     public class File
     {
