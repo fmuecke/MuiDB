@@ -20,17 +20,19 @@ namespace fmdev.MuiDB
 
     public class File
     {
-        public const string EmptyDocument = "<muidb><settings /><strings /></muidb>";
+        public const string EmptyDocument = "<muidb><settings /><items /></muidb>";
         public const string NeutralLanguage = "*";
         private const string LanguagesElementName = "languages";
-        private const string StringsElementName = "strings";
+        private const string ItemsElementName = "items";
         private const string ItemElementName = "item";
         private const string IdAttributeName = "id";
+        private const string TitleAttributeName = "title";
         private const string CommentElementName = "comment";
         private const string TextElementName = "text";
         private const string LangAttributeName = "lang";
         private const string StateAttributeName = "state";
         private const string SettingsElementName = "settings";
+        private const string ProjectElementName = "project";
         private const string OutFileElementName = "out-file";
 
         ////private const string XlfName = "files";
@@ -107,7 +109,7 @@ namespace fmdev.MuiDB
             }
         }
 
-        public IEnumerable<Item> Strings
+        public IEnumerable<Item> Items
         {
             get
             {
@@ -152,6 +154,20 @@ namespace fmdev.MuiDB
             return new XDocument(doc);
         }
 
+        public string ProjectTitle
+        {
+            get
+            {
+                var proj = doc.Root.Element(ns + SettingsElementName).Element(ns + ProjectElementName);
+                if (proj != null)
+                {
+                    return proj.Attribute(TitleAttributeName)?.Value;
+                }
+
+                return string.Empty;
+            }
+        }
+
         public List<string> GetLanguages()
         {
             var langs = doc.Root.Element(ns + SettingsElementName).Element(ns + LanguagesElementName)?.Value;
@@ -189,10 +205,10 @@ namespace fmdev.MuiDB
 
         public AddOrUpdateResult AddOrUpdateString(string id, string lang, string text, string state, string comment)
         {
-            var stringsNode = doc.Root.Element(ns + StringsElementName);
+            var stringsNode = doc.Root.Element(ns + ItemsElementName);
             if (stringsNode == null)
             {
-                stringsNode = new XElement(ns + StringsElementName);
+                stringsNode = new XElement(ns + ItemsElementName);
                 doc.Root.Add(stringsNode);
             }
 
@@ -257,9 +273,9 @@ namespace fmdev.MuiDB
 
         public void Save(string filename)
         {
-            var stringsNode = doc.Root.Element(ns + StringsElementName);
-            var items = stringsNode.Elements(ns + ItemElementName).OrderBy(i => i.Attribute(IdAttributeName).Value);
-            stringsNode.ReplaceAll(items);
+            var itemsNode = doc.Root.Element(ns + ItemsElementName);
+            var items = itemsNode.Elements(ns + ItemElementName).OrderBy(i => i.Attribute(IdAttributeName).Value);
+            itemsNode.ReplaceAll(items);
             doc.Save(filename);
         }
 
@@ -277,7 +293,7 @@ namespace fmdev.MuiDB
 
             var missingTranslations = new List<string>();
             var langs = GetLanguages();
-            foreach (var item in Strings)
+            foreach (var item in Items)
             {
                 foreach (var l in langs)
                 {
@@ -307,7 +323,7 @@ namespace fmdev.MuiDB
             }
 
             var entries = new List<ResXEntry>();
-            foreach (var item in Strings)
+            foreach (var item in Items)
             {
                 var entry = new ResXEntry();
                 Text text;
@@ -336,13 +352,13 @@ namespace fmdev.MuiDB
                 entries.Sort();
             }
 
-            ResXParser.Write(filename, entries);
+            ResXFile.Write(filename, entries, ResXFile.Mode.IncludeComments);
         }
 
         public ImportResult ImportResX(string filename, string language)
         {
             var result = new ImportResult();
-            var entries = ResXParser.Read(filename);
+            var entries = ResXFile.Read(filename, ResXFile.Mode.IncludeComments);
 
             foreach (var e in entries)
             {

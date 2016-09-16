@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>fmdev.MuiDB.Schema</id>
-        <version>0.8.0-beta3</version>
+        <version>0.9.0-beta</version>
         <authors>Florian Mücke</authors>
         <owners>Florian Mücke</owners>
         <licenseUrl>https://raw.githubusercontent.com/fmuecke/MuiDB/master/LICENSE</licenseUrl>

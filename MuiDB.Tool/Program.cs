@@ -26,7 +26,7 @@ namespace fmdev.MuiDB
             var itemCount = 0;
             var langs = new HashSet<string>();
 
-            foreach (var i in muidb.Strings)
+            foreach (var i in muidb.Items)
             {
                 ++itemCount;
                 commentCount += i.Comments.Count();
@@ -136,7 +136,7 @@ namespace fmdev.MuiDB
                     Console.WriteLine($"exporting language '{file.Lang}' into file '{filePath}'");
                 }
 
-                muidb.ExportResX(filePath, file.Lang);
+                muidb.ExportResX(filePath, file.Lang, File.SaveOptions.None);
             }
         }
 

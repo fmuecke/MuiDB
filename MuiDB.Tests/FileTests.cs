@@ -27,9 +27,27 @@ namespace fmdev.MuiDB.Tests
 
             f.Filename.Should().BeSameAs(filename);
             f.OutputFiles.Should().BeEmpty();
-            f.Strings.Should().BeEmpty();
+            f.Items.Should().BeEmpty();
             f.GetDocumentCopy().ToString(System.Xml.Linq.SaveOptions.DisableFormatting)
                 .Should().BeEquivalentTo(MuiDB.File.EmptyDocument, "file should be created if it does not exist and therefore match match default empty file");
+        }
+
+        [TestMethod]
+        public void ItemsAreNotEmpty()
+        {
+            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            f.Items.Should().NotBeEmpty("the sample must have translation items!");
+        }
+
+        [TestMethod]
+        public void TextsAreNotEmpty()
+        {
+            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+
+            foreach (var item in f.Items)
+            {
+                item.Texts.Should().NotBeEmpty("the sample data has translations defined");
+            }
         }
 
         [TestMethod]
@@ -95,6 +113,13 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
+        public void ReadProjectTitle()
+        {
+            var f = new File("..\\..\\TestData\\Sample.xml");
+            f.ProjectTitle.Should().Be("test sample");
+        }
+
+        [TestMethod]
         public void ExportInvalidLanguageTest()
         {
             var f = new File("..\\..\\TestData\\Sample.xml");
@@ -140,12 +165,16 @@ namespace fmdev.MuiDB.Tests
                 f.ExportResX(tempFile_en, "en", File.SaveOptions.IncludeComments | File.SaveOptions.SortEntries);
                 f.ExportResX(tempFile_de, "de", File.SaveOptions.IncludeComments);
 
-                var content_en = System.IO.File.ReadAllText(tempFile_en);
-                var content_de = System.IO.File.ReadAllText(tempFile_de);
-                var expected_en = System.IO.File.ReadAllText("..\\..\\TestData\\Sample.en.resx");
-                var expected_de = System.IO.File.ReadAllText("..\\..\\TestData\\Sample.de.resx");
+                var content_en = System.IO.File.ReadAllLines(tempFile_en);
+                var content_de = System.IO.File.ReadAllLines(tempFile_de);
+                var expected_en = System.IO.File.ReadAllLines("..\\..\\TestData\\Sample.en.resx");
+                var expected_de = System.IO.File.ReadAllLines("..\\..\\TestData\\Sample.de.resx");
 
-                content_en.ShouldBeEquivalentTo(expected_en, "Result must be sorted and contain the right values");
+                for (int i = 0; i < content_en.Length; ++i)
+                {
+                    content_en[i].Should().Be(expected_en[i], "the result must be sorted and contain the right values");
+                }
+
                 content_de.ShouldBeEquivalentTo(expected_de, "Result must be sorted and contain the right values");
             }
             finally

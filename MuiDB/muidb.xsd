@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.5"
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.9.0-beta"
   xmlns="http://tempuri.org/XMLSchema.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:this="http://github.com/fmuecke/MuiDB"
@@ -28,6 +28,15 @@
           <xs:complexType>
             <xs:sequence>
               <!--<xs:element maxOccurs="1" minOccurs="0" name="title" type="xs:string" />-->
+              <xs:element maxOccurs="1" minOccurs="0" name="project">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="title" type="xs:string" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
               <xs:element maxOccurs="1" minOccurs="1" name="languages" type="xs:string"/>
               <xs:element maxOccurs="unbounded" minOccurs="0" name="out-file">
                 <xs:complexType>
@@ -42,7 +51,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="strings">
+        <xs:element name="items">
           <xs:complexType>
             <xs:sequence>
               <xs:element maxOccurs="unbounded" name="item">

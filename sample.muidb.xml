@@ -1,28 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <muidb xmlns="http://github.com/fmuecke/MuiDB" version="alpha">
   <settings>
+    <project title="sample"/>
     <languages>en;de</languages>
     <out-file type="resx" lang="en">Strings.resx</out-file>
     <out-file type="resx" lang="en">Strings.en.resx</out-file>
     <out-file type="resx" lang="de">Strings.de.resx</out-file>
   </settings>
-  <strings>
-    <item id="ButtonCancel">
+  <items>
+    <string id="ButtonCancel">
       <text lang="en" state="final">Cancel</text>
       <text lang="de" state="new">Abbrechen</text>
-    </item>
-    <item id="XItems">
+    </string>
+    <string id="XItems">
       <comment lang="en">Items with number with thousands separator</comment>
       <text lang="en" state="translated">{0:N0} items</text>
       <text lang="de" state="reviewed">{0:N0} Einträge</text>
-    </item>
-    <item id="muidb">
+    </string>
+    <string id="muidb">
       <comment>Yes this really is MuiDB!</comment>
       <text lang="*" state="final">MuiDB</text>
-    </item>
-    <item id="muidb2">
+    </string>
+    <string id="muidb2">
       <comment>Yes this really is still MuiDB!</comment>
       <text lang="*" state="final">MuiDB as well</text>
-    </item>
-  </strings>
+    </string>
+  </items>
 </muidb>
