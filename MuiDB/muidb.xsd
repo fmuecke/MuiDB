@@ -38,7 +38,7 @@
                 </xs:complexType>
               </xs:element>
               <xs:element maxOccurs="1" minOccurs="1" name="languages" type="xs:string"/>
-              <xs:element maxOccurs="unbounded" minOccurs="0" name="out-file">
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="target-file">
                 <xs:complexType>
                   <xs:simpleContent>
                     <xs:extension base="xs:string">
