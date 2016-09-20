@@ -5,7 +5,7 @@
 
 namespace fmdev.MuiDB
 {
-    public class Text
+    public class TextItem
     {
         public string Value { get; set; } = string.Empty;
 

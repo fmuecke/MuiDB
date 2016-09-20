@@ -9,7 +9,7 @@ namespace fmdev.MuiDB
 
     public class Item
     {
-        public Dictionary<string, Text> Texts { get; private set; } = new Dictionary<string, Text>();
+        public Dictionary<string, TextItem> Texts { get; private set; } = new Dictionary<string, TextItem>();
 
         // <lang, comment>
         public Dictionary<string, string> Comments { get; private set; } = new Dictionary<string, string>();

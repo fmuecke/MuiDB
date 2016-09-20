@@ -17,7 +17,7 @@ namespace fmdev.MuiDB
     {
         public static void Info(Args.InfoCommand cmd)
         {
-            var muidb = new File(cmd.MuiDB);
+            var muidb = new MuiDBFile(cmd.MuiDB);
             var initialCount = 0;
             var translatedCount = 0;
             var reviewedCount = 0;
@@ -67,7 +67,7 @@ namespace fmdev.MuiDB
 
         public static void ImportFile(Args.ImportFileCommand cmd)
         {
-            var muidb = new File(cmd.Muidb, File.OpenMode.CreateIfMissing);
+            var muidb = new MuiDBFile(cmd.Muidb, MuiDBFile.OpenMode.CreateIfMissing);
 
             switch (cmd.Type.ToLowerInvariant())
             {
@@ -126,7 +126,7 @@ namespace fmdev.MuiDB
 
         public static void Export(Args.ExportCommand cmd)
         {
-            var muidb = new File(cmd.MuiDB);
+            var muidb = new MuiDBFile(cmd.MuiDB);
             var dir = Path.GetDirectoryName(cmd.MuiDB);
             foreach (var file in muidb.OutputFiles)
             {
@@ -136,18 +136,18 @@ namespace fmdev.MuiDB
                     Console.WriteLine($"exporting language '{file.Lang}' into file '{filePath}'");
                 }
 
-                muidb.ExportResX(filePath, file.Lang, File.SaveOptions.None);
+                muidb.ExportResX(filePath, file.Lang, MuiDBFile.SaveOptions.None);
             }
         }
 
         public static void ExportFile(Args.ExportFileCommand cmd)
         {
-            var muidb = new File(cmd.MuiDB);
+            var muidb = new MuiDBFile(cmd.MuiDB);
 
             switch (cmd.Type.ToLowerInvariant())
             {
                 case "resx":
-                    var options = !cmd.NoComments ? File.SaveOptions.IncludeComments : File.SaveOptions.None;
+                    var options = cmd.NoComments ? MuiDBFile.SaveOptions.SkipComments : MuiDBFile.SaveOptions.None;
                     muidb.ExportResX(cmd.Out, cmd.Lang, options);
                     if (cmd.Verbose)
                     {
@@ -166,7 +166,7 @@ namespace fmdev.MuiDB
 
         public static void Verify(Args.ValidateCommand cmd)
         {
-            var muidb = new File(cmd.MuiDB);
+            var muidb = new MuiDBFile(cmd.MuiDB);
             muidb.Validate();
             if (cmd.ApplyFormat)
             {

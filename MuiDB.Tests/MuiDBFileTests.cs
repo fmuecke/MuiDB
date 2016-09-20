@@ -17,32 +17,32 @@ namespace fmdev.MuiDB.Tests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class FileTests
+    public class MuiDBFileTests
     {
         [TestMethod]
         public void LoadFileTest()
         {
             var filename = Guid.NewGuid().ToString();
-            var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
+            var f = new MuiDB.MuiDBFile(filename, MuiDBFile.OpenMode.CreateIfMissing);
 
             f.Filename.Should().BeSameAs(filename);
             f.OutputFiles.Should().BeEmpty();
             f.Items.Should().BeEmpty();
             f.GetDocumentCopy().ToString(System.Xml.Linq.SaveOptions.DisableFormatting)
-                .Should().BeEquivalentTo(MuiDB.File.EmptyDocument, "file should be created if it does not exist and therefore match match default empty file");
+                .Should().BeEquivalentTo(MuiDB.MuiDBFile.EmptyDocument, "file should be created if it does not exist and therefore match match default empty file");
         }
 
         [TestMethod]
         public void ItemsAreNotEmpty()
         {
-            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDB.MuiDBFile("..\\..\\TestData\\Sample.xml");
             f.Items.Should().NotBeEmpty("the sample must have translation items!");
         }
 
         [TestMethod]
         public void TextsAreNotEmpty()
         {
-            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDB.MuiDBFile("..\\..\\TestData\\Sample.xml");
 
             foreach (var item in f.Items)
             {
@@ -55,7 +55,7 @@ namespace fmdev.MuiDB.Tests
         {
             var filename = Guid.NewGuid().ToString();
             Assert.IsFalse(System.IO.File.Exists(filename), "new file must not exist before save");
-            var f = new MuiDB.File(filename, File.OpenMode.CreateIfMissing);
+            var f = new MuiDB.MuiDBFile(filename, MuiDBFile.OpenMode.CreateIfMissing);
             try
             {
                 f.Save();
@@ -70,10 +70,9 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
-        [TestCategory("IO")]
         public void SaveExistingTest()
         {
-            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDB.MuiDBFile("..\\..\\TestData\\Sample.xml");
             var tempFile = System.IO.Path.GetTempFileName();
             try
             {
@@ -90,7 +89,7 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void VerifyMissingTranslationsTest()
         {
-            var f = new File("..\\..\\TestData\\MissingTranslations.xml");
+            var f = new MuiDBFile("..\\..\\TestData\\MissingTranslations.xml");
 
             bool exceptionWasThrown = false;
             try
@@ -115,14 +114,14 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ReadProjectTitle()
         {
-            var f = new File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDBFile("..\\..\\TestData\\Sample.xml");
             f.ProjectTitle.Should().Be("test sample");
         }
 
         [TestMethod]
         public void ExportInvalidLanguageTest()
         {
-            var f = new File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDBFile("..\\..\\TestData\\Sample.xml");
             f.GetLanguages().Should().NotContain("fr");
 
             try
@@ -139,7 +138,7 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ImportNewLanguageTest()
         {
-            var f = new File("new", File.OpenMode.CreateIfMissing);
+            var f = new MuiDBFile("new", MuiDBFile.OpenMode.CreateIfMissing);
             f.GetLanguages().Should().NotContain("de");
             f.ImportResX("..\\..\\TestData\\Sample.de.resx", "de");
             f.GetLanguages().Should().Contain("de");
@@ -148,7 +147,7 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ImportExistingLanguageTest()
         {
-            var f = new File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDBFile("..\\..\\TestData\\Sample.xml");
             f.GetLanguages().Should().Contain("de");
             f.ImportResX("..\\..\\TestData\\Sample.de.resx", "de");
             f.GetLanguages().Should().Contain("de");
@@ -157,13 +156,13 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ExportResXTest()
         {
-            var f = new MuiDB.File("..\\..\\TestData\\Sample.xml");
+            var f = new MuiDB.MuiDBFile("..\\..\\TestData\\Sample.xml");
             var tempFile_en = System.IO.Path.GetTempFileName();
             var tempFile_de = System.IO.Path.GetTempFileName();
             try
             {
-                f.ExportResX(tempFile_en, "en", File.SaveOptions.IncludeComments | File.SaveOptions.SortEntries);
-                f.ExportResX(tempFile_de, "de", File.SaveOptions.IncludeComments);
+                f.ExportResX(tempFile_en, "en", MuiDBFile.SaveOptions.SortEntries);
+                f.ExportResX(tempFile_de, "de");
 
                 var content_en = System.IO.File.ReadAllLines(tempFile_en);
                 var content_de = System.IO.File.ReadAllLines(tempFile_de);

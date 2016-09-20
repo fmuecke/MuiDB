@@ -33,8 +33,8 @@
     <CodeAnalysisRuleSet>..\MuiDB.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="fmdev.ResX, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\fmdev.ResX.0.1.1\lib\net46\fmdev.ResX.dll</HintPath>
+    <Reference Include="fmdev.ResX, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\fmdev.ResX.0.2.0\lib\net46\fmdev.ResX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -48,14 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="File.cs" />
+    <Compile Include="MuiDBFile.cs" />
     <Compile Include="..\GlobalSuppressions.cs" />
     <Compile Include="ImportResult.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="MissingTranslationsException.cs" />
     <Compile Include="OutputFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Text.cs" />
+    <Compile Include="TextItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MuiDB.nuspec">

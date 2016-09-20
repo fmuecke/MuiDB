@@ -18,9 +18,9 @@ namespace fmdev.MuiDB
     using System.Xml.Schema;
     using ResX;
 
-    public class File
+    public class MuiDBFile
     {
-        public const string EmptyDocument = "<muidb><settings /><items /></muidb>";
+        public const string EmptyDocument = "<muidb xmlns=\"http://github.com/fmuecke/MuiDB\"><settings /><items /></muidb>";
         public const string NeutralLanguage = "*";
         private const string LanguagesElementName = "languages";
         private const string ItemsElementName = "items";
@@ -40,7 +40,7 @@ namespace fmdev.MuiDB
         private XDocument doc;
         private XNamespace ns;
 
-        public File(string filename, OpenMode mode)
+        public MuiDBFile(string filename, OpenMode mode)
         {
             Filename = filename;
             if (mode == OpenMode.CreateIfMissing && !System.IO.File.Exists(Filename))
@@ -55,7 +55,7 @@ namespace fmdev.MuiDB
             ns = doc.Root.Name.Namespace;
         }
 
-        public File(string filename)
+        public MuiDBFile(string filename)
             : this(filename, OpenMode.OpenExisting)
         {
         }
@@ -77,7 +77,7 @@ namespace fmdev.MuiDB
         {
             None = 0,
             SortEntries = 1,
-            IncludeComments = 2
+            SkipComments = 2
         }
 
         public string Filename { get; private set; }
@@ -133,7 +133,7 @@ namespace fmdev.MuiDB
                             throw new Exception($"Item '{item.Id}' has multiple entries for language '{lang}'.");
                         }
 
-                        item.Texts[lang] = new Text() { State = state, Value = t.Value };
+                        item.Texts[lang] = new TextItem() { State = state, Value = t.Value };
                     }
 
                     foreach (var c in i.Elements(ns + CommentElementName))
@@ -149,11 +149,6 @@ namespace fmdev.MuiDB
             }
         }
 
-        public XDocument GetDocumentCopy()
-        {
-            return new XDocument(doc);
-        }
-
         public string ProjectTitle
         {
             get
@@ -166,6 +161,11 @@ namespace fmdev.MuiDB
 
                 return string.Empty;
             }
+        }
+
+        public XDocument GetDocumentCopy()
+        {
+            return new XDocument(doc);
         }
 
         public List<string> GetLanguages()
@@ -326,7 +326,7 @@ namespace fmdev.MuiDB
             foreach (var item in Items)
             {
                 var entry = new ResXEntry();
-                Text text;
+                TextItem text;
                 if (!item.Texts.TryGetValue(language, out text) && !item.Texts.TryGetValue(NeutralLanguage, out text))
                 {
                     throw new MissingTranslationsException(new List<string>() { $"{item.Id};{language}" });
@@ -335,7 +335,7 @@ namespace fmdev.MuiDB
                 entry.Id = item.Id;
                 entry.Value = text.Value;
 
-                if (options.HasFlag(SaveOptions.IncludeComments))
+                if (!options.HasFlag(SaveOptions.SkipComments))
                 {
                     string comment;
                     if (item.Comments.TryGetValue(language, out comment) || item.Comments.TryGetValue(NeutralLanguage, out comment))
@@ -352,13 +352,13 @@ namespace fmdev.MuiDB
                 entries.Sort();
             }
 
-            ResXFile.Write(filename, entries, ResXFile.Mode.IncludeComments);
+            ResXFile.Write(filename, entries);
         }
 
         public ImportResult ImportResX(string filename, string language)
         {
             var result = new ImportResult();
-            var entries = ResXFile.Read(filename, ResXFile.Mode.IncludeComments);
+            var entries = ResXFile.Read(filename);
 
             foreach (var e in entries)
             {
