@@ -34,6 +34,7 @@ namespace fmdev.MuiDB
         private const string SettingsElementName = "settings";
         private const string ProjectElementName = "project";
         private const string OutFileElementName = "out-file";
+        private const string DefaultNewState = "new";
 
         ////private const string XlfName = "files";
 
@@ -362,7 +363,7 @@ namespace fmdev.MuiDB
 
             foreach (var e in entries)
             {
-                var addOrUpdate = AddOrUpdateString(e.Id, language, e.Value, "new", e.Comment);
+                var addOrUpdate = AddOrUpdateString(e.Id, language, e.Value, DefaultNewState, e.Comment);
 
                 if (addOrUpdate == AddOrUpdateResult.Added)
                 {
