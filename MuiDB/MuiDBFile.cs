@@ -33,7 +33,7 @@ namespace fmdev.MuiDB
         private const string StateAttributeName = "state";
         private const string SettingsElementName = "settings";
         private const string ProjectElementName = "project";
-        private const string OutFileElementName = "out-file";
+        private const string TargetFileElementName = "target-file";
         private const string DefaultNewState = "new";
 
         ////private const string XlfName = "files";
@@ -83,25 +83,25 @@ namespace fmdev.MuiDB
 
         public string Filename { get; private set; }
 
-        public IEnumerable<OutputFile> OutputFiles
+        public IEnumerable<TargetFile> TargetFiles
         {
             get
             {
                 var filesNode = doc.Root.Element(ns + SettingsElementName);
                 if (filesNode == null)
                 {
-                    return new List<OutputFile>();
+                    return new List<TargetFile>();
                 }
 
-                var fileNodes = filesNode.Elements(ns + OutFileElementName);
+                var fileNodes = filesNode.Elements(ns + TargetFileElementName);
                 if (!fileNodes.Any())
                 {
-                    return new List<OutputFile>();
+                    return new List<TargetFile>();
                 }
 
                 return fileNodes.Select(f =>
                 {
-                    return new OutputFile()
+                    return new TargetFile()
                     {
                         Name = f.Value,
                         Lang = f.Attribute(LangAttributeName)?.Value

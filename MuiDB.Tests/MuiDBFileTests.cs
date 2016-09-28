@@ -26,7 +26,7 @@ namespace fmdev.MuiDB.Tests
             var f = new MuiDB.MuiDBFile(filename, MuiDBFile.OpenMode.CreateIfMissing);
 
             f.Filename.Should().BeSameAs(filename);
-            f.OutputFiles.Should().BeEmpty();
+            f.TargetFiles.Should().BeEmpty();
             f.Items.Should().BeEmpty();
             f.GetDocumentCopy().ToString(System.Xml.Linq.SaveOptions.DisableFormatting)
                 .Should().BeEquivalentTo(MuiDB.MuiDBFile.EmptyDocument, "file should be created if it does not exist and therefore match match default empty file");
@@ -154,11 +154,22 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
+        public void SampleSchemaTest()
+        {
+            var f = new MuiDB.MuiDBFile("..\\..\\TestData\\Sample.xml");
+            f.Validate();
+        }
+
+        [TestMethod]
         public void ExportResXTest()
         {
             var f = new MuiDB.MuiDBFile("..\\..\\TestData\\Sample.xml");
+            f.TargetFiles.Should().NotBeEmpty("the sample has target files defined for export");
+            f.TargetFiles.Count().ShouldBeEquivalentTo(3, "there are three target files defined in the sample");
+
             var tempFile_en = System.IO.Path.GetTempFileName();
             var tempFile_de = System.IO.Path.GetTempFileName();
+
             try
             {
                 f.ExportResX(tempFile_en, "en", MuiDBFile.SaveOptions.SortEntries);

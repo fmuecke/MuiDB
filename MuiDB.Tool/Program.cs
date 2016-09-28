@@ -59,7 +59,7 @@ namespace fmdev.MuiDB
             Console.WriteLine($"  # final     : {finalCount}");
 
             Console.WriteLine("Configured output files:");
-            foreach (var file in muidb.OutputFiles)
+            foreach (var file in muidb.TargetFiles)
             {
                 Console.WriteLine($" - {file.Name} (lang={file.Lang})");
             }
@@ -128,7 +128,12 @@ namespace fmdev.MuiDB
         {
             var muidb = new MuiDBFile(cmd.MuiDB);
             var dir = Path.GetDirectoryName(cmd.MuiDB);
-            foreach (var file in muidb.OutputFiles)
+            if (!muidb.TargetFiles.Any())
+            {
+                throw new InvalidOperationException($"{cmd.MuiDB} does not contain any files to export");
+            }
+
+            foreach (var file in muidb.TargetFiles)
             {
                 var filePath = Path.Combine(dir, file.Name);
                 if (cmd.Verbose)
