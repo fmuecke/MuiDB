@@ -3,9 +3,9 @@
   <settings>
     <project title="test sample" />
     <languages>en;de</languages>
-    <out-file type="resx" lang="en">Strings.resx</out-file>
-    <out-file type="resx" lang="en">Strings.en.resx</out-file>
-    <out-file type="resx" lang="de">Strings.de.resx</out-file>
+    <target-file type="resx" lang="en">Strings.resx</target-file>
+    <target-file type="resx" lang="en">Strings.en.resx</target-file>
+    <target-file type="resx" lang="de">Strings.de.resx</target-file>
   </settings>
   <items>
     <item id="ButtonCancel">
