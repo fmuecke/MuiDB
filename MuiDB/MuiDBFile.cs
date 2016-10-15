@@ -275,7 +275,7 @@ namespace fmdev.MuiDB
         public void Save(string filename)
         {
             var itemsNode = doc.Root.Element(ns + ItemsElementName);
-            var items = itemsNode.Elements(ns + ItemElementName).OrderBy(i => i.Attribute(IdAttributeName).Value);
+            var items = itemsNode.Elements(ns + ItemElementName).OrderBy(i => i.Attribute(IdAttributeName)?.Value);
             itemsNode.ReplaceAll(items);
             doc.Save(filename);
         }
