@@ -224,7 +224,7 @@ namespace fmdev.MuiDB
             else
             {
                 item = new XElement(ns + ItemElementName);
-                item.SetAttributeValue(ns + IdAttributeName, id);
+                item.SetAttributeValue(IdAttributeName, id);
                 stringsNode.Add(item);
                 result = AddOrUpdateResult.Added;
             }
@@ -238,12 +238,12 @@ namespace fmdev.MuiDB
             else
             {
                 textNode = new XElement(ns + TextElementName);
-                textNode.SetAttributeValue(ns + LangAttributeName, lang);
+                textNode.SetAttributeValue(LangAttributeName, lang);
                 item.Add(textNode);
             }
 
             textNode.SetValue(text);
-            textNode.SetAttributeValue(ns + StateAttributeName, state);
+            textNode.SetAttributeValue(StateAttributeName, state);
 
             if (!string.IsNullOrWhiteSpace(comment))
             {
@@ -257,7 +257,7 @@ namespace fmdev.MuiDB
                 else
                 {
                     commentNode = new XElement(ns + CommentElementName);
-                    ////commentNode.SetAttributeValue(ns + LangName, lang);
+                    ////commentNode.SetAttributeValue(LangName, lang);
                     item.Add(commentNode);
                 }
 
