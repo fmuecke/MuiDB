@@ -41,14 +41,15 @@ To install `muidb-tool`, run the following command in the Package Manager Consol
 
 ## The typical translation workflow for a shared C#-Project <a name="typical-workflow"></a>
 
-Let's assume we want to ship our application with two languages *en* and *de* and 
-want to track the translation process for both. And of course our development team also provides *both* initial translations. And here's why:
+Let's assume you want to ship your application with two languages *en* and *de* and  want
+to track the translation process for both. And of course your development team also provides 
+*both* initial translations. And here's why:
   - In smaller companies you just don't have the resources
   - Agile software development teams don't want to be dependent upon external resources/processes
   - At least for non English native speakers it should not be a problem to support their mother
    tongue and English as a target language 
 
-Naturally we end up having at least three(!) languages in our project:
+Naturally you end up having at least three(!) languages in your project:
   - developer/source/fallback language: *"en"*
   - target languages: *en*, *de*
 
@@ -103,7 +104,7 @@ It sucks because you have to
 
 
 ## The MuiDB way<a name="muidb-workflow"></a>
-We assume we already [configured muidb-support](#configure-project) for our C# project.
+Let's assume you already [configured muidb-support](#configure-project) for your C# project.
 The steps to add a new string are: 
 
 1. Add the new string resource in `muidb.xml` - including initial translations 
@@ -111,7 +112,7 @@ The steps to add a new string are:
 3. Submit new translations to version control  
 6. Review translations
 
-We **do not have to**
+You **do not have to**
 
 - use multiple tools
 - work around tool limitations
