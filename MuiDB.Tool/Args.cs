@@ -49,7 +49,7 @@ namespace fmdev.MuiDB
         [Description("Export translations for configured resx files.")]
         public class ExportCommand : Command
         {
-            [CommandArg(HelpText = "The MuiDB file to process.", IsRequired = true)]
+            [CommandArg(HelpText = "The MuiDB file to process. (supports wildcards)", IsRequired = true)]
             public string MuiDB { get; set; }
 
             [CommandArg(HelpText = HelpTextVerbose)]

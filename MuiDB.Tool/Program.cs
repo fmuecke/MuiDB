@@ -126,22 +126,31 @@ namespace fmdev.MuiDB
 
         public static void Export(Args.ExportCommand cmd)
         {
-            var muidb = new MuiDBFile(cmd.MuiDB);
-            var dir = Path.GetDirectoryName(cmd.MuiDB);
-            if (!muidb.TargetFiles.Any())
-            {
-                throw new InvalidOperationException($"{cmd.MuiDB} does not contain any files to export");
-            }
+            string dir = GetFullNormalizedDirectory(cmd.MuiDB);
 
-            foreach (var file in muidb.TargetFiles)
+            foreach (var file in GetMatchingFiles(dir, Path.GetFileName(cmd.MuiDB)))
             {
-                var filePath = Path.Combine(dir, file.Name);
                 if (cmd.Verbose)
                 {
-                    Console.WriteLine($"exporting language '{file.Lang}' into file '{filePath}'");
+                    Console.WriteLine($"exporting from file '{file}'");
                 }
 
-                muidb.ExportResX(filePath, file.Lang, MuiDBFile.SaveOptions.None);
+                var muidb = new MuiDBFile(file);
+                if (!muidb.TargetFiles.Any())
+                {
+                    throw new InvalidOperationException($"{file} does not contain any files to export");
+                }
+
+                foreach (var target in muidb.TargetFiles)
+                {
+                    var targetFile = Path.Combine(dir, target.Name);
+                    if (cmd.Verbose)
+                    {
+                        Console.WriteLine($"exporting language '{target.Lang}' into file '{targetFile}'");
+                    }
+
+                    muidb.ExportResX(targetFile, target.Lang, MuiDBFile.SaveOptions.None);
+                }
             }
         }
 
@@ -177,6 +186,47 @@ namespace fmdev.MuiDB
             {
                 muidb.Save();
             }
+        }
+
+        private static string GetFullNormalizedDirectory(string filePath)
+        {
+            var dir = Path.GetDirectoryName(filePath);
+            if (dir == null)
+            {
+                throw new ArgumentException($"filepath contains an invalid directory: {dir}");
+            }
+
+            if (string.IsNullOrWhiteSpace(dir) || !Path.IsPathRooted(dir))
+            {
+                dir = Path.Combine(System.IO.Directory.GetCurrentDirectory(), dir);
+            }
+
+            dir = Path.GetFullPath(dir);  // normalize path
+            return dir;
+        }
+
+        private static List<string> GetMatchingFiles(string dir, string pattern)
+        {
+            List<string> files = new List<string>();
+
+            if (pattern.Contains("*") || pattern.Contains('?'))
+            {
+                foreach (var fileInfo in new DirectoryInfo(dir).EnumerateFiles(pattern))
+                {
+                    files.Add(fileInfo.FullName);
+                }
+
+                if (files.Count == 0)
+                {
+                    throw new ArgumentException("no matching files found to export from");
+                }
+            }
+            else
+            {
+                files.Add(Path.Combine(dir, pattern));
+            }
+
+            return files;
         }
 
         private static void Main(string[] args)
@@ -226,7 +276,7 @@ namespace fmdev.MuiDB
                 }
 #if DEBUG
 
-                Console.Error.WriteLine(e.StackTrace);
+                Console.Error.WriteLine($"+++ Stacktrace +++\n{e.StackTrace}");
 #endif
                 System.Environment.ExitCode = 1;
             }
