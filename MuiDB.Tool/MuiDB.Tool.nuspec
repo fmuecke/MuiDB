@@ -15,7 +15,6 @@
     <copyright>Copyright © 2016  Florian Mücke</copyright>
     <tags>resx xlf xliff conversion tool commandline muidb</tags>
     <dependencies>
-      <dependency id="fmdev.MuiDB.Schema" version="0.8-beta2" />
     </dependencies>
   </metadata>
   <files>
