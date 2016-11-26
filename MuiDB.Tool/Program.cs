@@ -45,7 +45,7 @@ namespace fmdev.MuiDB
                         case "reviewed": ++reviewedCount; break;
                         case "final": ++finalCount; break;
                         default:
-                            Console.Error.WriteLine($"unknown state '{text.Value.State}' for item id={i.Id} and lang={text.Key}");
+                            Console.Error.WriteLine($"Unknown state '{text.Value.State}' for item id={i.Id} and lang={text.Key}");
                             break;
                     }
                 }
@@ -77,16 +77,16 @@ namespace fmdev.MuiDB
                     {
                         foreach (var added in result.AddedItems)
                         {
-                            Console.WriteLine($"added resource '{added}'");
+                            Console.WriteLine($"Added resource '{added}'");
                         }
 
                         foreach (var updated in result.UpdatedItems)
                         {
-                            Console.WriteLine($"updated resource '{updated}'");
+                            Console.WriteLine($"Updated resource '{updated}'");
                         }
                     }
 
-                    Console.WriteLine($"added items: {result.AddedItems.Count}\nupdated items: {result.UpdatedItems.Count}");
+                    Console.WriteLine($"Added items: {result.AddedItems.Count}\nupdated items: {result.UpdatedItems.Count}");
                     break;
 
                 case "xliff":
@@ -95,7 +95,7 @@ namespace fmdev.MuiDB
 
                     if (cmd.Verbose)
                     {
-                        Console.WriteLine($"adding/updating resources for language '{cmd.Lang}...");
+                        Console.WriteLine($"Adding/updating resources for language '{cmd.Lang}...");
                     }
 
                     foreach (var unit in file.TransUnits)
@@ -109,7 +109,7 @@ namespace fmdev.MuiDB
                         var comment = unit.Optional.Notes.Any() ? unit.Optional.Notes.First().Value : null;
                         if (cmd.Verbose)
                         {
-                            Console.WriteLine($"adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
+                            Console.WriteLine($"Adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
                         }
 
                         muidb.AddOrUpdateString(id, cmd.Lang, unit.Target, unit.Optional.TargetState, comment);
@@ -118,7 +118,7 @@ namespace fmdev.MuiDB
                     break;
 
                 default:
-                    throw new Exception($"unknown format: {cmd.Type}");
+                    throw new Exception($"Unknown format: {cmd.Type}");
             }
 
             muidb.Save();
@@ -132,13 +132,13 @@ namespace fmdev.MuiDB
             {
                 if (cmd.Verbose)
                 {
-                    Console.WriteLine($"exporting from file '{file}'");
+                    Console.WriteLine($"Exporting from file '{file}'");
                 }
 
                 var muidb = new MuiDBFile(file);
                 if (!muidb.TargetFiles.Any())
                 {
-                    throw new InvalidOperationException($"{file} does not contain any files to export");
+                    throw new InvalidOperationException($"'{file}' does not contain any files to export");
                 }
 
                 foreach (var target in muidb.TargetFiles)
@@ -146,10 +146,37 @@ namespace fmdev.MuiDB
                     var targetFile = Path.Combine(dir, target.Name);
                     if (cmd.Verbose)
                     {
-                        Console.WriteLine($"exporting language '{target.Lang}' into file '{targetFile}'");
+                        Console.WriteLine($"Exporting language '{target.Lang}' into file '{targetFile}'");
                     }
 
                     muidb.ExportResX(targetFile, target.Lang, MuiDBFile.SaveOptions.None);
+                }
+
+                if (cmd.GenerateDesignerFiles)
+                {
+                    if (!muidb.DesignerFiles.Any())
+                    {
+                        throw new InvalidOperationException($"'{file}' does not have any designer files specified");
+                    }
+
+                    foreach (var d in muidb.DesignerFiles)
+                    {
+                        try
+                        {
+                            if (d.IsInternal)
+                            {
+                                ResX.ResXFile.GenerateInternalDesignerFile(d.Source, d.Class, d.Namespace);
+                            }
+                            else
+                            {
+                                ResX.ResXFile.GenerateDesignerFile(d.Source, d.Class, d.Namespace);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception($"Generating designer file for '{file}' failed", e);
+                        }
+                    }
                 }
             }
         }
@@ -165,16 +192,16 @@ namespace fmdev.MuiDB
                     muidb.ExportResX(cmd.Out, cmd.Lang, options);
                     if (cmd.Verbose)
                     {
-                        Console.WriteLine($"exporting language '{cmd.Lang}' into file '{cmd.Out}'");
+                        Console.WriteLine($"Exporting language '{cmd.Lang}' into file '{cmd.Out}'");
                     }
 
                     break;
 
                 case "xliff":
-                    throw new Exception("xliff export is not implemented, yet");
+                    throw new Exception("XLIFF export is not implemented, yet");
 
                 default:
-                    throw new Exception($"unknown format: {cmd.Type}");
+                    throw new Exception($"Unknown format: {cmd.Type}");
             }
         }
 
@@ -193,7 +220,7 @@ namespace fmdev.MuiDB
             var dir = Path.GetDirectoryName(filePath);
             if (dir == null)
             {
-                throw new ArgumentException($"filepath contains an invalid directory: {dir}");
+                throw new ArgumentException($"Filepath contains an invalid directory: {dir}");
             }
 
             if (string.IsNullOrWhiteSpace(dir) || !Path.IsPathRooted(dir))
@@ -218,7 +245,7 @@ namespace fmdev.MuiDB
 
                 if (files.Count == 0)
                 {
-                    throw new ArgumentException("no matching files found to export from");
+                    throw new ArgumentException("No matching files found to export from");
                 }
             }
             else
@@ -269,10 +296,10 @@ namespace fmdev.MuiDB
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine("error: " + e.Message);
+                Console.Error.WriteLine($"Error: {e.Message}");
                 if (e.InnerException != null)
                 {
-                    Console.Error.WriteLine("Additonal error information: " + e.InnerException.Message);
+                    Console.Error.WriteLine($"-> {e.InnerException.Message}");
                 }
 #if DEBUG
 

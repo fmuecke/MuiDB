@@ -9,9 +9,9 @@
         <projectUrl>https://github.com/fmuecke/MuiDB</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>$description$</description>
-        <releaseNotes>Initial release</releaseNotes>
+        <releaseNotes>v0.7: Supports specification of C# designer files</releaseNotes>
         <copyright>Copyright © 2016 Florian Mücke</copyright>
-        <tags>resx xlf xliff muidb conversion translation text string resources database languages i18n</tags>
+        <tags>resx xlf xliff muidb conversion translation text string resources database languages i18n designer.cs</tags>
         <dependencies />
     </metadata>
 </package>

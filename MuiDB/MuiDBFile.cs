@@ -1,4 +1,4 @@
-﻿// <copyright file="File.cs" company="Florian Mücke">
+﻿// <copyright file="MuiDBFile.cs" company="Florian Mücke">
 // Copyright (c) Florian Mücke. All rights reserved.
 // Licensed under the BSD license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -34,6 +34,7 @@ namespace fmdev.MuiDB
         private const string SettingsElementName = "settings";
         private const string ProjectElementName = "project";
         private const string TargetFileElementName = "target-file";
+        private const string DesignerFileElementName = "designer-file";
         private const string DefaultNewState = "new";
 
         ////private const string XlfName = "files";
@@ -105,6 +106,36 @@ namespace fmdev.MuiDB
                     {
                         Name = f.Value,
                         Lang = f.Attribute(LangAttributeName)?.Value
+                    };
+                }).ToList();
+            }
+        }
+
+        public IEnumerable<DesignerFile> DesignerFiles
+        {
+            get
+            {
+                var filesNode = doc.Root.Element(ns + SettingsElementName);
+                if (filesNode == null)
+                {
+                    return new List<DesignerFile>();
+                }
+
+                var fileNodes = filesNode.Elements(ns + DesignerFileElementName);
+                if (!fileNodes.Any())
+                {
+                    return new List<DesignerFile>();
+                }
+
+                return fileNodes.Select(f =>
+                {
+                    var internalAttribute = f.Attribute("internal");
+                    return new DesignerFile()
+                    {
+                        Source = f.Attribute("source")?.Value,
+                        Class = f.Attribute("class")?.Value,
+                        Namespace = f.Attribute("namespace")?.Value,
+                        IsInternal = internalAttribute == null ? false : (bool)internalAttribute
                     };
                 }).ToList();
             }
@@ -320,7 +351,7 @@ namespace fmdev.MuiDB
         {
             if (!GetLanguages().Contains(language))
             {
-                throw new ArgumentException($"{language} is not a configured language.");
+                throw new ArgumentException($"'{language}' is not a configured language.");
             }
 
             var entries = new List<ResXEntry>();

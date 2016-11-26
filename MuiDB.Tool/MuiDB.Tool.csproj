@@ -40,8 +40,8 @@
       <HintPath>..\packages\fmdev.ArgsParser.0.2.3\lib\net46\fmdev.ArgsParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="fmdev.ResX, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\fmdev.ResX.0.2.0\lib\net46\fmdev.ResX.dll</HintPath>
+    <Reference Include="fmdev.ResX, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\fmdev.ResX.0.3.0\lib\net46\fmdev.ResX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="fmdev.XliffParser, Version=0.5.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -65,9 +65,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="MuiDB.Tool.nuspec" />
+    <None Include="MuiDB.Tool.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\MuiDB.ruleset" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>

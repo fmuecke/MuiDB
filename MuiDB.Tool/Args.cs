@@ -52,6 +52,9 @@ namespace fmdev.MuiDB
             [CommandArg(HelpText = "The MuiDB file to process. (supports wildcards)", IsRequired = true)]
             public string MuiDB { get; set; }
 
+            [CommandArg(HelpText = "Generate *.Designer.cs file from configured resx files")]
+            public bool GenerateDesignerFiles { get; set; }
+
             [CommandArg(HelpText = HelpTextVerbose)]
             public bool Verbose { get; set; }
         }

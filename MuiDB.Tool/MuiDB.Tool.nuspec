@@ -10,10 +10,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
+      v0.7: Supports generation of C# designer files from exported resx files
       v0.6.2: wildcard support for muidb export command
     </releaseNotes>
     <copyright>Copyright © 2016  Florian Mücke</copyright>
-    <tags>resx xlf xliff conversion tool commandline muidb</tags>
+    <tags>resx xlf xliff conversion tool commandline muidb designer.cs</tags>
     <dependencies>
     </dependencies>
   </metadata>
