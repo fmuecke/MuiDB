@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.9.0-beta">
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.10.0">
   <settings>
     <project title="sample"/>
     <languages>en;de</languages>
     <target-file type="resx" lang="en">Strings.resx</target-file>
     <target-file type="resx" lang="en">Strings.en.resx</target-file>
     <target-file type="resx" lang="de">Strings.de.resx</target-file>
+    <designer-file source="String2s.resx" class="Strings" namespace="fmdev.MuiDB" internal="false"/>
   </settings>
   <items>
     <item id="ButtonCancel">

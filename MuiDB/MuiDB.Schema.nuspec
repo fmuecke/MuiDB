@@ -2,14 +2,14 @@
 <package>
     <metadata>
         <id>fmdev.MuiDB.Schema</id>
-        <version>0.9.0</version>
+        <version>0.10.0</version>
         <authors>Florian Mücke</authors>
         <owners>Florian Mücke</owners>
         <licenseUrl>https://raw.githubusercontent.com/fmuecke/MuiDB/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/fmuecke/MuiDB</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>XSD file that enables Intellisens(TM) when editing MuiDB translation databases in Visual Studio.</description>
-        <releaseNotes>Initial release</releaseNotes>
+        <releaseNotes>v0.10: supports specification for generated C# designer files</releaseNotes>
         <copyright>Copyright © 2016 Florian Mücke</copyright>
         <tags>muidb schema xsd intellisense</tags>
         <language>en-US</language>

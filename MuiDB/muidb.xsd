@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.9.0"
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.10.0"
   xmlns="http://tempuri.org/XMLSchema.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:this="http://github.com/fmuecke/MuiDB"
@@ -43,12 +43,19 @@
                   <xs:simpleContent>
                     <xs:extension base="xs:string">
                       <xs:attribute name="lang" type="xs:string" />
-                      <xs:attribute name="type" type="this:File_type" />
+                      <xs:attribute name="type" type="this:File_type" use="required"/>
                     </xs:extension>
                   </xs:simpleContent>
                 </xs:complexType>
               </xs:element>
-            </xs:sequence>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="designer-file">
+                <xs:complexType>
+                  <xs:attribute name="source" type="xs:string" use="required"/>
+                  <xs:attribute name="class" type="xs:string" use="required"/>
+                  <xs:attribute name="namespace" type="xs:string" use="required"/>
+                  <xs:attribute name="internal" type="xs:boolean" use="required"/>
+                </xs:complexType>
+              </xs:element>            </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="items">
