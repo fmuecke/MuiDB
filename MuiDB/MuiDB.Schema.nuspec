@@ -8,7 +8,7 @@
         <licenseUrl>https://raw.githubusercontent.com/fmuecke/MuiDB/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/fmuecke/MuiDB</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>XSD file that enables Intellisens(TM) when editing MuiDB translation databases in Visual Studio.</description>
+        <description>XSD file that enables Intellisense(TM) when editing MuiDB translation databases in Visual Studio.</description>
         <releaseNotes>
             v0.12: supports specification for generated C# designer files
         </releaseNotes>
