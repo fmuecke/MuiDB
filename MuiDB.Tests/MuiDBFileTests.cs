@@ -131,7 +131,7 @@ namespace fmdev.MuiDB.Tests
             }
             catch (ArgumentException e)
             {
-                e.Message.ShouldBeEquivalentTo("fr is not a configured language.");
+                e.Message.ShouldBeEquivalentTo("'fr' is not a configured language.");
             }
         }
 

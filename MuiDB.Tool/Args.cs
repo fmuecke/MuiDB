@@ -24,6 +24,22 @@ namespace fmdev.MuiDB
             public string MuiDB { get; set; }
         }
 
+        [Description("Configure settings for a MuiDB file.")]
+        public class ConfigureCommand : Command
+        {
+            [CommandArg(HelpText = "The MuiDB file to apply changes to.", IsRequired = true)]
+            public string MuiDB { get; set; }
+
+            [CommandArg(HelpText = "The base name for the generated files.")]
+            public string BaseName { get; set; }
+
+            [CommandArg(HelpText = "The code namespace for the generated files.")]
+            public string CodeNamespace { get; set; }
+
+            [CommandArg(HelpText = "The project title.")]
+            public string ProjectTitle { get; set; }
+        }
+
         [Description("Import translations from specific ResX/XLIFF file.")]
         public class ImportFileCommand : Command
         {
@@ -51,9 +67,6 @@ namespace fmdev.MuiDB
         {
             [CommandArg(HelpText = "The MuiDB file to process. (supports wildcards)", IsRequired = true)]
             public string MuiDB { get; set; }
-
-            [CommandArg(HelpText = "Generate *.Designer.cs file from configured resx files")]
-            public bool GenerateDesignerFiles { get; set; }
 
             [CommandArg(HelpText = HelpTextVerbose)]
             public bool Verbose { get; set; }

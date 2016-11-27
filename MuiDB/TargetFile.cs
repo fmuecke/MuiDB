@@ -16,5 +16,7 @@ namespace fmdev.MuiDB
         public string Name { get; set; } = string.Empty;
 
         public string Lang { get; set; } = string.Empty;
+
+        public DesignerFile Designer { get; set; } = null;
     }
 }

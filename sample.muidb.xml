@@ -1,22 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.10.0">
-  <settings>
-    <project title="sample"/>
-    <languages>en;de</languages>
-    <target-file type="resx" lang="en">Strings.resx</target-file>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.11.0">
+  <settings project-title="sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
+    <target-file type="resx" lang="en" designer="true">Strings.resx</target-file>
     <target-file type="resx" lang="en">Strings.en.resx</target-file>
     <target-file type="resx" lang="de">Strings.de.resx</target-file>
-    <designer-file source="String2s.resx" class="Strings" namespace="fmdev.MuiDB" internal="false"/>
   </settings>
   <items>
     <item id="ButtonCancel">
       <text lang="en" state="final">Cancel</text>
       <text lang="de" state="new">Abbrechen</text>
-    </item>
-    <item id="XItems">
-      <comment lang="en">Items with number with thousands separator</comment>
-      <text lang="en" state="translated">{0:N0} items</text>
-      <text lang="de" state="reviewed">{0:N0} Einträge</text>
     </item>
     <item id="muidb">
       <comment>Yes this really is MuiDB!</comment>
@@ -25,6 +17,11 @@
     <item id="muidb2">
       <comment>Yes this really is still MuiDB!</comment>
       <text lang="*" state="final">MuiDB as well</text>
+    </item>
+    <item id="XItems">
+      <comment lang="en">Items with number with thousands separator</comment>
+      <text lang="en" state="translated">{0:N0} items</text>
+      <text lang="de" state="reviewed">{0:N0} Einträge</text>
     </item>
   </items>
 </muidb>

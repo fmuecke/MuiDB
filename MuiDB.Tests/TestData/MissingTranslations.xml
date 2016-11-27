@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.10.0">
-  <settings>
-    <languages>en;de</languages>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.11.0">
+  <settings project-title="sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
   </settings>
   <items>
     <item id="item0">

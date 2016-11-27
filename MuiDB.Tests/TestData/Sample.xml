@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.10.0">
-  <settings>
-    <project title="test sample" />
-    <languages>en;de</languages>
-    <target-file type="resx" lang="en">Strings.resx</target-file>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.11.0">
+  <settings project-title="test sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
+    <target-file type="resx" lang="en" designer="true" internal-designer-class="true">Strings.resx</target-file>
     <target-file type="resx" lang="en">Strings.en.resx</target-file>
     <target-file type="resx" lang="de">Strings.de.resx</target-file>
   </settings>

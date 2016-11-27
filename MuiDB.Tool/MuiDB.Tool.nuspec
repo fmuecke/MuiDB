@@ -10,6 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>
+      v0.8: *new* Configure command to change some settings for the muidb file
       v0.7: Supports generation of C# designer files from exported resx files
       v0.6.2: wildcard support for muidb export command
     </releaseNotes>

@@ -124,6 +124,40 @@ namespace fmdev.MuiDB
             muidb.Save();
         }
 
+        public static void Configure(Args.ConfigureCommand cmd)
+        {
+            string dir = GetFullNormalizedDirectory(cmd.MuiDB);
+
+            foreach (var file in GetMatchingFiles(dir, Path.GetFileName(cmd.MuiDB)))
+            {
+                var muidb = new MuiDBFile(file);
+                var modified = false;
+
+                if (cmd.BaseName != null && cmd.BaseName != muidb.BaseName)
+                {
+                    muidb.BaseName = cmd.BaseName;
+                    modified = true;
+                }
+
+                if (cmd.CodeNamespace != null && cmd.CodeNamespace != muidb.CodeNamespace)
+                {
+                    muidb.CodeNamespace = cmd.CodeNamespace;
+                    modified = true;
+                }
+
+                if (cmd.ProjectTitle != null && cmd.ProjectTitle != muidb.ProjectTitle)
+                {
+                    muidb.ProjectTitle = cmd.ProjectTitle;
+                    modified = true;
+                }
+
+                if (modified)
+                {
+                    muidb.Save();
+                }
+            }
+        }
+
         public static void Export(Args.ExportCommand cmd)
         {
             string dir = GetFullNormalizedDirectory(cmd.MuiDB);
@@ -150,27 +184,13 @@ namespace fmdev.MuiDB
                     }
 
                     muidb.ExportResX(targetFile, target.Lang, MuiDBFile.SaveOptions.None);
-                }
 
-                if (cmd.GenerateDesignerFiles)
-                {
-                    if (!muidb.DesignerFiles.Any())
-                    {
-                        throw new InvalidOperationException($"'{file}' does not have any designer files specified");
-                    }
-
-                    foreach (var d in muidb.DesignerFiles)
+                    var d = target.Designer;
+                    if (d != null)
                     {
                         try
                         {
-                            if (d.IsInternal)
-                            {
-                                ResX.ResXFile.GenerateInternalDesignerFile(d.Source, d.Class, d.Namespace);
-                            }
-                            else
-                            {
-                                ResX.ResXFile.GenerateDesignerFile(d.Source, d.Class, d.Namespace);
-                            }
+                            ResX.ResXFile.GenerateDesignerFile(targetFile, d.ClassName, d.Namespace, d.IsInternal);
                         }
                         catch (Exception e)
                         {
@@ -266,6 +286,10 @@ namespace fmdev.MuiDB
                     if (argsParser.Result is Args.InfoCommand)
                     {
                         Info(argsParser.Result as Args.InfoCommand);
+                    }
+                    else if (argsParser.Result is Args.ConfigureCommand)
+                    {
+                        Configure(argsParser.Result as Args.ConfigureCommand);
                     }
                     else if (argsParser.Result is Args.ImportFileCommand)
                     {

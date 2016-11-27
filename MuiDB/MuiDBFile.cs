@@ -20,9 +20,13 @@ namespace fmdev.MuiDB
 
     public class MuiDBFile
     {
-        public const string EmptyDocument = "<muidb xmlns=\"http://github.com/fmuecke/MuiDB\"><settings /><items /></muidb>";
         public const string NeutralLanguage = "*";
-        private const string LanguagesElementName = "languages";
+        public static readonly string EmptyDocument = $"<muidb xmlns=\"http://github.com/fmuecke/MuiDB\"><{SettingsElementName} {BaseNameAttributeName}=\"\" {LanguagesAttributeName}=\"\" /><{ItemsElementName} /></muidb>";
+        private const string SettingsElementName = "settings";
+        private const string BaseNameAttributeName = "base-name";
+        private const string CodeNamespaceAttributeName = "code-namespace";
+        private const string LanguagesAttributeName = "languages";
+        private const string ProjectTitleAttributeName = "project-title";
         private const string ItemsElementName = "items";
         private const string ItemElementName = "item";
         private const string IdAttributeName = "id";
@@ -31,11 +35,10 @@ namespace fmdev.MuiDB
         private const string TextElementName = "text";
         private const string LangAttributeName = "lang";
         private const string StateAttributeName = "state";
-        private const string SettingsElementName = "settings";
-        private const string ProjectElementName = "project";
         private const string TargetFileElementName = "target-file";
-        private const string DesignerFileElementName = "designer-file";
         private const string DefaultNewState = "new";
+        private const string DesignerAttributeName = "designer";
+        private const string DesignerIsInternalAttributeName = "internal-designer-class";
 
         ////private const string XlfName = "files";
 
@@ -88,13 +91,13 @@ namespace fmdev.MuiDB
         {
             get
             {
-                var filesNode = doc.Root.Element(ns + SettingsElementName);
-                if (filesNode == null)
+                var settingsNode = doc.Root.Element(ns + SettingsElementName);
+                if (settingsNode == null)
                 {
                     return new List<TargetFile>();
                 }
 
-                var fileNodes = filesNode.Elements(ns + TargetFileElementName);
+                var fileNodes = settingsNode.Elements(ns + TargetFileElementName);
                 if (!fileNodes.Any())
                 {
                     return new List<TargetFile>();
@@ -102,41 +105,24 @@ namespace fmdev.MuiDB
 
                 return fileNodes.Select(f =>
                 {
-                    return new TargetFile()
+                    var targetFile = new TargetFile()
                     {
                         Name = f.Value,
                         Lang = f.Attribute(LangAttributeName)?.Value
                     };
-                }).ToList();
-            }
-        }
 
-        public IEnumerable<DesignerFile> DesignerFiles
-        {
-            get
-            {
-                var filesNode = doc.Root.Element(ns + SettingsElementName);
-                if (filesNode == null)
-                {
-                    return new List<DesignerFile>();
-                }
-
-                var fileNodes = filesNode.Elements(ns + DesignerFileElementName);
-                if (!fileNodes.Any())
-                {
-                    return new List<DesignerFile>();
-                }
-
-                return fileNodes.Select(f =>
-                {
-                    var internalAttribute = f.Attribute("internal");
-                    return new DesignerFile()
+                    if (f.Attribute(DesignerAttributeName) != null && (bool)f.Attribute(DesignerAttributeName))
                     {
-                        Source = f.Attribute("source")?.Value,
-                        Class = f.Attribute("class")?.Value,
-                        Namespace = f.Attribute("namespace")?.Value,
-                        IsInternal = internalAttribute == null ? false : (bool)internalAttribute
-                    };
+                        targetFile.Designer = new DesignerFile()
+                        {
+                            ClassName = settingsNode.Attribute(BaseNameAttributeName)?.Value,
+                            Namespace = settingsNode.Attribute(CodeNamespaceAttributeName)?.Value,
+                            IsInternal = f.Attribute(DesignerIsInternalAttributeName) != null && (bool)f.Attribute(DesignerIsInternalAttributeName)
+                        };
+                    }
+
+                    return targetFile;
+
                 }).ToList();
             }
         }
@@ -185,13 +171,40 @@ namespace fmdev.MuiDB
         {
             get
             {
-                var proj = doc.Root.Element(ns + SettingsElementName).Element(ns + ProjectElementName);
-                if (proj != null)
-                {
-                    return proj.Attribute(TitleAttributeName)?.Value;
-                }
+                return doc.Root.Element(ns + SettingsElementName).Attribute(ProjectTitleAttributeName)?.Value;
+            }
 
-                return string.Empty;
+            set
+            {
+                doc.Root.Element(ns + SettingsElementName).SetAttributeValue(ProjectTitleAttributeName, value);
+            }
+        }
+
+
+        public string BaseName
+        {
+            get
+            {
+                return doc.Root.Element(ns + SettingsElementName)?.Attribute(BaseNameAttributeName)?.Value;
+            }
+
+            set
+            {
+                doc.Root.Element(ns + SettingsElementName)?.SetAttributeValue(BaseNameAttributeName, value);
+            }
+        }
+
+
+        public string CodeNamespace
+        {
+            get
+            {
+                return doc.Root.Element(ns + SettingsElementName)?.Attribute(CodeNamespaceAttributeName)?.Value;
+            }
+
+            set
+            {
+                doc.Root.Element(ns + SettingsElementName)?.SetAttributeValue(BaseNameAttributeName, value);
             }
         }
 
@@ -202,8 +215,8 @@ namespace fmdev.MuiDB
 
         public List<string> GetLanguages()
         {
-            var langs = doc.Root.Element(ns + SettingsElementName).Element(ns + LanguagesElementName)?.Value;
-            if (langs == null || string.IsNullOrWhiteSpace(langs))
+            var langs = doc.Root.Element(ns + SettingsElementName)?.Attribute(LanguagesAttributeName)?.Value;
+            if (string.IsNullOrWhiteSpace(langs))
             {
                 return new List<string>();
             }
@@ -214,25 +227,13 @@ namespace fmdev.MuiDB
         public void SetLanguages(IEnumerable<string> languages)
         {
             var settingsNode = doc.Root.Element(ns + SettingsElementName);
-            XElement langsNode;
             if (settingsNode == null)
             {
                 settingsNode = new XElement(ns + SettingsElementName);
-                langsNode = new XElement(ns + LanguagesElementName);
-                settingsNode.Add(langsNode);
                 doc.Root.Add(settingsNode);
             }
-            else
-            {
-                langsNode = settingsNode.Element(ns + LanguagesElementName);
-                if (langsNode == null)
-                {
-                    langsNode = new XElement(ns + LanguagesElementName);
-                    settingsNode.AddFirst(langsNode);
-                }
-            }
 
-            langsNode.SetValue(string.Join(";", languages));
+            settingsNode.SetAttributeValue(LanguagesAttributeName, string.Join(";", languages));
         }
 
         public AddOrUpdateResult AddOrUpdateString(string id, string lang, string text, string state, string comment)
