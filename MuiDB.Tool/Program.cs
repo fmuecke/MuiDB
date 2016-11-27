@@ -9,7 +9,6 @@ namespace fmdev.MuiDB
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Resources;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -190,6 +189,11 @@ namespace fmdev.MuiDB
                     {
                         try
                         {
+                            if (cmd.Verbose)
+                            {
+                                Console.WriteLine($"Generating '{d.ClassName}.Designer.cs' from '{targetFile}' with namespace={d.Namespace} and internal={d.IsInternal}");
+                            }
+
                             ResX.ResXFile.GenerateDesignerFile(targetFile, d.ClassName, d.Namespace, d.IsInternal);
                         }
                         catch (Exception e)
