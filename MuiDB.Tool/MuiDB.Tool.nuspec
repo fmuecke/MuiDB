@@ -1,26 +1,27 @@
 <?xml version="1.0"?>
 <package>
-  <metadata>
-    <id>fmdev.MuiDB.Tool</id>
-    <version>$version$</version>
-    <authors>$author$</authors>
-    <owners>Florian Mücke</owners>
-    <licenseUrl>https://raw.githubusercontent.com/fmuecke/MuiDB/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/fmuecke/MuiDB</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>
-      v0.8: *new* Configure command to change some settings for the muidb file
-      v0.7: Supports generation of C# designer files from exported resx files
-      v0.6.2: wildcard support for muidb export command
-    </releaseNotes>
-    <copyright>Copyright © 2016  Florian Mücke</copyright>
-    <tags>resx xlf xliff conversion tool commandline muidb designer.cs</tags>
-    <dependencies>
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="..\bin\Release\*.dll" target="tools" />
-	<file src="..\MuiDB\muidb.xsd" target="content\muidb.xsd" />
-  </files>
+    <metadata>
+        <id>fmdev.MuiDB.Tool</id>
+        <version>$version$</version>
+        <authors>$author$</authors>
+        <owners>Florian Mücke</owners>
+        <licenseUrl>https://raw.githubusercontent.com/fmuecke/MuiDB/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/fmuecke/MuiDB</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>$description$</description>
+        <releaseNotes>
+            v0.9: export command supports reformatting of muidb file
+            v0.8: *new* Configure command to change some settings for the muidb file
+            v0.7: Supports generation of C# designer files from exported resx files
+            v0.6.2: wildcard support for muidb export command
+        </releaseNotes>
+        <copyright>Copyright © 2016  Florian Mücke</copyright>
+        <tags>resx xlf xliff conversion tool commandline muidb designer.cs</tags>
+        <dependencies>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\bin\Release\*.dll" target="tools" />
+        <file src="..\MuiDB\muidb.xsd" target="content\muidb.xsd" />
+    </files>
 </package>

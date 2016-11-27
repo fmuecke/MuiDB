@@ -92,10 +92,7 @@ namespace fmdev.MuiDB
                     var doc = new XliffParser.XlfDocument(cmd.In);
                     var file = doc.Files.First();
 
-                    if (cmd.Verbose)
-                    {
-                        Console.WriteLine($"Adding/updating resources for language '{cmd.Lang}...");
-                    }
+                    Verbose(cmd, $"Adding/updating resources for language '{cmd.Lang}...");
 
                     foreach (var unit in file.TransUnits)
                     {
@@ -106,10 +103,7 @@ namespace fmdev.MuiDB
                         }
 
                         var comment = unit.Optional.Notes.Any() ? unit.Optional.Notes.First().Value : null;
-                        if (cmd.Verbose)
-                        {
-                            Console.WriteLine($"Adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
-                        }
+                        Verbose(cmd, $"Adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
 
                         muidb.AddOrUpdateString(id, cmd.Lang, unit.Target, unit.Optional.TargetState, comment);
                     }
@@ -163,25 +157,20 @@ namespace fmdev.MuiDB
 
             foreach (var file in GetMatchingFiles(dir, Path.GetFileName(cmd.MuiDB)))
             {
-                if (cmd.Verbose)
-                {
-                    Console.WriteLine($"Exporting from file '{file}'");
-                }
-
                 var muidb = new MuiDBFile(file);
                 if (!muidb.TargetFiles.Any())
                 {
                     throw new InvalidOperationException($"'{file}' does not contain any files to export");
                 }
 
+                Verify(new Args.ValidateCommand() { MuiDB = file, Verbose = cmd.Verbose, ReFormat = cmd.ReFormat });
+
+                Verbose(cmd, $"Exporting from file '{file}'");
+
                 foreach (var target in muidb.TargetFiles)
                 {
                     var targetFile = Path.Combine(dir, target.Name);
-                    if (cmd.Verbose)
-                    {
-                        Console.WriteLine($"Exporting language '{target.Lang}' into file '{targetFile}'");
-                    }
-
+                    Verbose(cmd, $"Exporting language '{target.Lang}' into file '{targetFile}'");
                     muidb.ExportResX(targetFile, target.Lang, MuiDBFile.SaveOptions.None);
 
                     var d = target.Designer;
@@ -189,11 +178,7 @@ namespace fmdev.MuiDB
                     {
                         try
                         {
-                            if (cmd.Verbose)
-                            {
-                                Console.WriteLine($"Generating '{d.ClassName}.Designer.cs' from '{targetFile}' with namespace={d.Namespace} and internal={d.IsInternal}");
-                            }
-
+                            Verbose(cmd, $"Generating '{d.ClassName}.Designer.cs' from '{targetFile}' with namespace={d.Namespace} and internal={d.IsInternal}");
                             ResX.ResXFile.GenerateDesignerFile(targetFile, d.ClassName, d.Namespace, d.IsInternal);
                         }
                         catch (Exception e)
@@ -214,11 +199,7 @@ namespace fmdev.MuiDB
                 case "resx":
                     var options = cmd.NoComments ? MuiDBFile.SaveOptions.SkipComments : MuiDBFile.SaveOptions.None;
                     muidb.ExportResX(cmd.Out, cmd.Lang, options);
-                    if (cmd.Verbose)
-                    {
-                        Console.WriteLine($"Exporting language '{cmd.Lang}' into file '{cmd.Out}'");
-                    }
-
+                    Verbose(cmd, $"Exporting language '{cmd.Lang}' into file '{cmd.Out}'");
                     break;
 
                 case "xliff":
@@ -231,10 +212,12 @@ namespace fmdev.MuiDB
 
         public static void Verify(Args.ValidateCommand cmd)
         {
+            Verbose(cmd, $"Validating file '{cmd.MuiDB}' against MuiDB schema");
             var muidb = new MuiDBFile(cmd.MuiDB);
             muidb.Validate();
-            if (cmd.ApplyFormat)
+            if (cmd.ReFormat)
             {
+                Verbose(cmd, $"Applying default format to '{cmd.MuiDB}'");
                 muidb.Save();
             }
         }
@@ -370,6 +353,14 @@ namespace fmdev.MuiDB
                 "OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" +
                 "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n" +
                 "Feel free to contribute! For more information, visit https://github.com/fmuecke/MuiDB.\n");
+        }
+
+        private static void Verbose(VerboseCommand cmd, string message)
+        {
+            if (cmd.Verbose)
+            {
+                Console.WriteLine(message);
+            }
         }
     }
 }
