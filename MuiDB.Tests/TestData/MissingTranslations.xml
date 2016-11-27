@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.11.0">
-  <settings project-title="sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
-  </settings>
-  <items>
-    <item id="item0">
-      <text lang="en" state="final">Cancel</text>
-      <text lang="de" state="final">Cancel</text>
-    </item>
-    <item id="item1">
-      <text lang="en" state="final">Cancel</text>
-    </item>
-    <item id="item2">
-      <text lang="de" state="final">{0:N0} Einträge</text>
-    </item>
-    <item id="muidb">
-      <comment>Yes this really is MuiDB!</comment>
-      <text lang="*" state="final">MuiDB</text>
-    </item>
-  </items>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.12.0">
+    <settings project-title="sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
+    </settings>
+    <items>
+        <item id="item0">
+            <text lang="en" state="final">Cancel</text>
+            <text lang="de" state="final">Cancel</text>
+        </item>
+        <item id="item1">
+            <text lang="en" state="final">Cancel</text>
+        </item>
+        <item id="item2">
+            <text lang="de" state="final">{0:N0} Einträge</text>
+        </item>
+        <item id="muidb">
+            <comment>Yes this really is MuiDB!</comment>
+            <text lang="*" state="final">MuiDB</text>
+        </item>
+    </items>
 </muidb>

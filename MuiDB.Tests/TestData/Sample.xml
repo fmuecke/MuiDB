@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.11.0">
-  <settings project-title="test sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
-    <target-file type="resx" lang="en" designer="true" internal-designer-class="true">Strings.resx</target-file>
-    <target-file type="resx" lang="en">Strings.en.resx</target-file>
-    <target-file type="resx" lang="de">Strings.de.resx</target-file>
-  </settings>
-  <items>
-    <item id="ButtonCancel">
-      <text lang="en" state="final">Cancel</text>
-      <text lang="de" state="final">Abbrechen</text>
-    </item>
-    <item id="xItems">
-      <comment lang="en">Items with number with thousands separator</comment>
-      <text lang="en" state="final">{0:N0} items</text>
-      <text lang="de" state="final">{0:N0} Einträge</text>
-    </item>
-    <item id="muidb">
-      <comment>Yes this really is MuiDB!</comment>
-      <text lang="*" state="final">MuiDB</text>
-    </item>
-  </items>
+<muidb xmlns="http://github.com/fmuecke/MuiDB" version="0.12.0">
+    <settings project-title="test sample" base-name="Sample" code-namespace="fmdev.MuiDB" languages="en;de">
+        <target-file type="resx" lang="en" designer="internal">Strings.resx</target-file>
+        <target-file type="resx" lang="en">Strings.en.resx</target-file>
+        <target-file type="resx" lang="de">Strings.de.resx</target-file>
+    </settings>
+    <items>
+        <item id="ButtonCancel">
+            <text lang="en" state="final">Cancel</text>
+            <text lang="de" state="final">Abbrechen</text>
+        </item>
+        <item id="xItems">
+            <comment lang="en">Items with number with thousands separator</comment>
+            <text lang="en" state="final">{0:N0} items</text>
+            <text lang="de" state="final">{0:N0} Einträge</text>
+        </item>
+        <item id="muidb">
+            <comment>Yes this really is MuiDB!</comment>
+            <text lang="*" state="final">MuiDB</text>
+        </item>
+    </items>
 </muidb>

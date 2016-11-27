@@ -35,9 +35,8 @@ namespace fmdev.MuiDB
         private const string TargetFileElementName = "target-file";
         private const string DefaultNewState = "new";
         private const string DesignerAttributeName = "designer";
-        private const string DesignerIsInternalAttributeName = "internal-designer-class";
-
-        ////private const string XlfName = "files";
+        private const string DesignerValueInternal = "internal";
+        private const string DesignerValuePublic = "public";
 
         private XDocument doc;
         private XNamespace ns;
@@ -108,13 +107,14 @@ namespace fmdev.MuiDB
                         Lang = f.Attribute(LangAttributeName)?.Value
                     };
 
-                    if (f.Attribute(DesignerAttributeName) != null && (bool)f.Attribute(DesignerAttributeName))
+                    var designerValue = f.Attribute(DesignerAttributeName)?.Value;
+                    if (designerValue != null && (designerValue == DesignerValueInternal || designerValue == DesignerValuePublic))
                     {
                         targetFile.Designer = new DesignerFile()
                         {
                             ClassName = settingsNode.Attribute(BaseNameAttributeName)?.Value,
                             Namespace = settingsNode.Attribute(CodeNamespaceAttributeName)?.Value,
-                            IsInternal = f.Attribute(DesignerIsInternalAttributeName) != null && (bool)f.Attribute(DesignerIsInternalAttributeName)
+                            IsInternal = designerValue == DesignerValueInternal
                         };
                     }
 

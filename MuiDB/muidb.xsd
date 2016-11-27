@@ -1,34 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.11.0"
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.12.0"
   xmlns="http://tempuri.org/XMLSchema.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:this="http://github.com/fmuecke/MuiDB"
   targetNamespace="http://github.com/fmuecke/MuiDB">
-  
-  <xs:simpleType name="File_type">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="resx" />
-      <xs:enumeration value="xliff" />
-    </xs:restriction>
-  </xs:simpleType>
-  
-  <xs:simpleType name="State_type">
-    <xs:restriction base="xs:string">
-        <xs:enumeration value="new" />
-        <xs:enumeration value="translated" />
-        <xs:enumeration value="reviewed" />
-      <xs:enumeration value="final" />
-    </xs:restriction>
-  </xs:simpleType>
 
-  <xs:element name="muidb">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element name="settings">
-          <xs:complexType>
+    <xs:simpleType name="File_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="resx" />
+            <xs:enumeration value="xliff" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="State_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="new" />
+            <xs:enumeration value="translated" />
+            <xs:enumeration value="reviewed" />
+            <xs:enumeration value="final" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Designer_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="none" />
+            <xs:enumeration value="internal" />
+            <xs:enumeration value="public" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="muidb">
+        <xs:complexType>
             <xs:sequence>
-              <!--<xs:element maxOccurs="1" minOccurs="0" name="title" type="xs:string" />-->
-              <!--<xs:element maxOccurs="1" minOccurs="0" name="project">
+                <xs:element name="settings">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!--<xs:element maxOccurs="1" minOccurs="0" name="title" type="xs:string" />-->
+                            <!--<xs:element maxOccurs="1" minOccurs="0" name="project">
                 <xs:complexType>
                   <xs:simpleContent>
                     <xs:extension base="xs:string">
@@ -37,59 +45,58 @@
                   </xs:simpleContent>
                 </xs:complexType>
               </xs:element>-->
-              <xs:element maxOccurs="unbounded" minOccurs="0" name="target-file">
-                <xs:complexType>
-                  <xs:simpleContent>
-                    <xs:extension base="xs:string">
-                      <xs:attribute name="lang" type="xs:string" use="required"/>
-                      <xs:attribute name="type" type="this:File_type" use="required"/>
-                      <xs:attribute name="designer" type="xs:boolean" use="optional" />
-                      <xs:attribute name="internal-designer-class" type="xs:boolean" use="optional"/>
-                    </xs:extension>
-                  </xs:simpleContent>
-                </xs:complexType>
-              </xs:element>
+                            <xs:element maxOccurs="unbounded" minOccurs="0" name="target-file">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute name="lang" type="xs:string" use="required" />
+                                            <xs:attribute name="type" type="this:File_type" use="required" />
+                                            <xs:attribute name="designer" type="this:Designer_type" use="optional" />
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="base-name" type="xs:string" use="required" />
+                        <xs:attribute name="code-namespace" type="xs:string" use="optional" />
+                        <xs:attribute name="languages" type="xs:string" use="required" />
+                        <xs:attribute name="project-title" type="xs:string" use="optional" />
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="items">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="item">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="comment" maxOccurs="1" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute name="lang" type="xs:string" use="optional" />
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element maxOccurs="unbounded" name="text">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute name="lang" type="xs:string" use="required" />
+                                                        <xs:attribute name="state" type="this:State_type" use="required" />
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="id" type="xs:string" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
-            <xs:attribute name="base-name" type="xs:string" use="required"/>
-            <xs:attribute name="code-namespace" type="xs:string" use="optional"/>
-            <xs:attribute name="languages" type="xs:string" use="required"/>
-            <xs:attribute name="project-title" type="xs:string" use="optional"/>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="items">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="item">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="comment" maxOccurs="1" minOccurs="0">
-                      <xs:complexType>
-                        <xs:simpleContent>
-                          <xs:extension base="xs:string">
-                            <xs:attribute name="lang" type="xs:string" use="optional"/>
-                          </xs:extension>
-                        </xs:simpleContent>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element maxOccurs="unbounded" name="text">
-                      <xs:complexType>
-                        <xs:simpleContent>
-                          <xs:extension base="xs:string">
-                            <xs:attribute name="lang" type="xs:string" use="required"/>
-                            <xs:attribute name="state" type="this:State_type" use="required"/>
-                          </xs:extension>
-                        </xs:simpleContent>
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:sequence>
-                  <xs:attribute name="id" type="xs:string" use="required"/>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-      <xs:attribute name="version" type="xs:string" />
-    </xs:complexType>
-  </xs:element>
+            <xs:attribute name="version" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
 </xs:schema>
