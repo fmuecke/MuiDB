@@ -110,9 +110,15 @@ namespace fmdev.MuiDB
                     var designerValue = f.Attribute(DesignerAttributeName)?.Value;
                     if (designerValue != null && (designerValue == DesignerValueInternal || designerValue == DesignerValuePublic))
                     {
+                        var className = settingsNode.Attribute(BaseNameAttributeName)?.Value;
+                        if (string.IsNullOrWhiteSpace(className))
+                        {
+                            className = System.IO.Path.GetFileNameWithoutExtension(f.Value);
+                        }
+
                         targetFile.Designer = new DesignerFile()
                         {
-                            ClassName = settingsNode.Attribute(BaseNameAttributeName)?.Value,
+                            ClassName = className,
                             Namespace = settingsNode.Attribute(CodeNamespaceAttributeName)?.Value,
                             IsInternal = designerValue == DesignerValueInternal
                         };

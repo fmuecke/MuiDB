@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.12.0"
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="0.12.1"
   xmlns="http://tempuri.org/XMLSchema.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:this="http://github.com/fmuecke/MuiDB"
@@ -57,7 +57,7 @@
                                 </xs:complexType>
                             </xs:element>
                         </xs:sequence>
-                        <xs:attribute name="base-name" type="xs:string" use="required" />
+                        <xs:attribute name="base-name" type="xs:string" use="optional" />
                         <xs:attribute name="code-namespace" type="xs:string" use="optional" />
                         <xs:attribute name="languages" type="xs:string" use="required" />
                         <xs:attribute name="project-title" type="xs:string" use="optional" />
