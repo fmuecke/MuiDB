@@ -16,6 +16,7 @@ namespace fmdev.MuiDB
     internal static class Args
     {
         private const string ReFormatHelpText = "Apply default format to MuiDB file (fixes item sort order).";
+        private const string CodeNamespaceHelpText = "The code namespace for the generated designer files.";
 
         [Description("Display information for a MuiDB file.")]
         public class InfoCommand : VerboseCommand
@@ -33,7 +34,7 @@ namespace fmdev.MuiDB
             [CommandArg(HelpText = "The base name for the generated files.")]
             public string BaseName { get; set; }
 
-            [CommandArg(HelpText = "The code namespace for the generated files.")]
+            [CommandArg(HelpText = CodeNamespaceHelpText)]
             public string CodeNamespace { get; set; }
 
             [CommandArg(HelpText = "The project title.")]
@@ -67,6 +68,9 @@ namespace fmdev.MuiDB
 
             [CommandArg(HelpText = ReFormatHelpText)]
             public bool ReFormat { get; set; }
+
+            [CommandArg(HelpText = CodeNamespaceHelpText)]
+            public string CodeNamespace { get; set; }
         }
 
         [Description("Export translations to a specific ResX/XLIFF file.")]

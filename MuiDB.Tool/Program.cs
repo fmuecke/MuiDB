@@ -178,8 +178,9 @@ namespace fmdev.MuiDB
                     {
                         try
                         {
-                            Verbose(cmd, $"Generating '{d.ClassName}.Designer.cs' from '{targetFile}' with namespace={d.Namespace} and internal={d.IsInternal}");
-                            ResX.ResXFile.GenerateDesignerFile(targetFile, d.ClassName, d.Namespace, d.IsInternal);
+                            var codeNamespace = cmd.CodeNamespace ?? d.Namespace;
+                            Verbose(cmd, $"Generating '{d.ClassName}.Designer.cs' from '{targetFile}' with namespace={codeNamespace} and internal={d.IsInternal}");
+                            ResX.ResXFile.GenerateDesignerFile(targetFile, d.ClassName, codeNamespace, d.IsInternal);
                         }
                         catch (Exception e)
                         {
@@ -235,7 +236,8 @@ namespace fmdev.MuiDB
                 dir = Path.Combine(System.IO.Directory.GetCurrentDirectory(), dir);
             }
 
-            dir = Path.GetFullPath(dir);  // normalize path
+            dir = Path.GetFullPath(dir);  // normalizes the path
+
             return dir;
         }
 
@@ -326,7 +328,8 @@ namespace fmdev.MuiDB
             Console.WriteLine(
                 $"\n{app} uses the following open source 3rdParty libs:\n\n" +
                 "- XliffParser: https://github.com/fmuecke/XliffParser (BSD)\n" +
-                "- ArgsParser: https://github.com/fmuecke/ArgsParser (BSD)\n\n" +
+                "- ArgsParser: https://github.com/fmuecke/ArgsParser (BSD)\n" +
+                "- ResX: https://github.com/fmuecke/resx (MIT)\n\n" +
                 "For additional license information please consult the LICENSE file in the respective repository.\n\n" +
                 "License:\n" +
                 "Copyright (c) 2016, Florian Mücke\n" +
