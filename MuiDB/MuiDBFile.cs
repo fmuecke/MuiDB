@@ -272,6 +272,14 @@ namespace fmdev.MuiDB
                 textNode = new XElement(ns + TextElementName);
                 textNode.SetAttributeValue(LangAttributeName, lang);
                 item.Add(textNode);
+
+                // add new language to global language list
+                var langs = GetLanguages();
+                if (!langs.Contains(lang))
+                {
+                    langs.Add(lang);
+                    SetLanguages(langs);
+                }
             }
 
             textNode.SetValue(text);

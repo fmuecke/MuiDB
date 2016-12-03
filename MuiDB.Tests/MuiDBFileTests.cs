@@ -136,16 +136,47 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
-        public void ImportNewLanguageTest()
+        public void ImportNewItemTest()
         {
             var f = new MuiDBFile("new", MuiDBFile.OpenMode.CreateIfMissing);
-            f.GetLanguages().Should().NotContain("de");
-            f.ImportResX("..\\..\\TestData\\Sample.de.resx", "de");
-            f.GetLanguages().Should().Contain("de");
+
+            var id = "someRandomNewId";
+            var lang = "de";
+            var state = "new";
+            var value = "Ein Ring, sie alle zu kechten, sie alle zu finden.";
+
+            f.Items.Should().NotContain((i) => i.Id == id);
+            f.GetLanguages().Should().NotContain(lang);
+            f.AddOrUpdateString(id, lang, value, state, null);
+            f.GetLanguages().Should().Contain(lang);
+            f.Items.Should().Contain((i) => i.Id == id);
+            var item = f.Items.First((i) => i.Id == id);
+            item.Texts.Should().ContainKey(lang);
+            item.Texts[lang].State.Should().Be(state);
+            item.Texts[lang].Value.Should().Be(value);
+            item.Comments.Should().BeEmpty();
+
+            // import second language
+            var lang2 = "en";
+            var state2 = "translated";
+            var value2 = "One Ring to rule them all, One Ring to find them.";
+            var comment = "This is a test";
+            f.AddOrUpdateString(id, lang2, value2, state2, comment);
+            f.GetLanguages().Should().Contain(lang2);
+            f.Items.Should().Contain((i) => i.Id == id);
+            item = f.Items.First((i) => i.Id == id);
+            item.Texts.Should().ContainKey(lang2);
+            item.Texts[lang2].State.Should().Be(state2);
+            item.Texts[lang2].Value.Should().Be(value2);
+            item.Comments.Should().Contain(MuiDBFile.NeutralLanguage, comment);
+
+            // check if document is compliant with schema
+            // (comment node must be first child element of the item etc.)
+            f.Validate();
         }
 
         [TestMethod]
-        public void ImportExistingLanguageTest()
+        public void ImportExistingLanguageFromResxTest()
         {
             var f = new MuiDBFile("..\\..\\TestData\\Sample.xml");
             f.GetLanguages().Should().Contain("de");
