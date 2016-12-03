@@ -70,7 +70,7 @@ Naturally you end up having at least three(!) languages in your project:
 <a name="tool-limitations">(1)</a> Some tools mess up line endings, add unnecessary whitespace, 
 use non-standard xml formatting, add proprietary data that prevents merging entirely (like checksums), 
 modify a lot of other files which need to be reset
-<a name="sync-back-footnote">(2)</a> Some teams wish to have their resource stings in snyc with their 
+<a name="sync-back-footnote">(2)</a> Some teams wish to have their resource stings in sync with their 
 translation. However most tools do not support syncing back to the source.
 </small>
 
