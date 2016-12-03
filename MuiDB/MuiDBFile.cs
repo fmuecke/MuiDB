@@ -298,7 +298,7 @@ namespace fmdev.MuiDB
                 {
                     commentNode = new XElement(ns + CommentElementName);
                     ////commentNode.SetAttributeValue(LangName, lang);
-                    item.Add(commentNode);
+                    item.AddFirst(commentNode);
                 }
 
                 commentNode.SetValue(comment);
