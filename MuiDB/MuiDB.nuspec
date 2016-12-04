@@ -10,6 +10,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+          v0.8.4: import: XLIFF-states are translated to valid MuiDB (fixes #6)
           v0.8.3: resolved some compliance issues with schema 0.12
           v0.7: Supports specification of C# designer files</releaseNotes>
         <copyright>Copyright © 2016 Florian Mücke</copyright>

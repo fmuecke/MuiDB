@@ -10,6 +10,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+            v0.8.3: import: XLIFF-states are translated to valid MuiDB (fixes #6)
             v0.9: export command supports reformatting of muidb file
             v0.8: *new* Configure command to change some settings for the muidb file
             v0.7: Supports generation of C# designer files from exported resx files
