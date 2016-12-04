@@ -238,6 +238,8 @@ namespace fmdev.MuiDB
 
         public AddOrUpdateResult AddOrUpdateString(string id, string lang, string text, string state, string comment)
         {
+            var validState = StateConverter.ToMuiDB(state);  // may throw ArgumentOutOfRangeException
+
             var stringsNode = doc.Root.Element(ns + ItemsElementName);
             if (stringsNode == null)
             {
@@ -283,7 +285,7 @@ namespace fmdev.MuiDB
             }
 
             textNode.SetValue(text);
-            textNode.SetAttributeValue(StateAttributeName, state);
+            textNode.SetAttributeValue(StateAttributeName, validState);
 
             if (!string.IsNullOrWhiteSpace(comment))
             {

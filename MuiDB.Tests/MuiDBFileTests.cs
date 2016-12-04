@@ -176,6 +176,19 @@ namespace fmdev.MuiDB.Tests
         }
 
         [TestMethod]
+        public void ImportNewItemWithInvalidState()
+        {
+            var f = new MuiDBFile("new", MuiDBFile.OpenMode.CreateIfMissing);
+
+            var id = "someRandomNewId";
+            var state = "some invalid state";
+            var lang = "xx";
+
+            f.Items.Should().NotContain((i) => i.Id == id);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => f.AddOrUpdateString(id, lang, "yy", state, null));
+        }
+
+        [TestMethod]
         public void ImportExistingLanguageFromResxTest()
         {
             var f = new MuiDBFile("..\\..\\TestData\\Sample.xml");

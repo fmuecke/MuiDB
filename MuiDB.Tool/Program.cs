@@ -105,7 +105,19 @@ namespace fmdev.MuiDB
                         var comment = unit.Optional.Notes.Any() ? unit.Optional.Notes.First().Value : null;
                         Verbose(cmd, $"Adding/updating resource '{id}': text='{unit.Target}', state='{unit.Optional.TargetState}'");
 
-                        muidb.AddOrUpdateString(id, cmd.Lang, unit.Target, unit.Optional.TargetState, comment);
+
+                        string translatedState;
+                        try
+                        {
+                            translatedState = StateConverter.ToMuiDB(unit.Optional.TargetState);
+                        }
+                        catch (ArgumentOutOfRangeException r)
+                        {
+                            translatedState = StateConverter.MuiDbStates.New;
+                            Console.Error.WriteLine($"Warning: state '{unit.Optional.TargetState}' of item '{id}' is unknown and will be mapped to '{translatedState}'");
+                        }
+
+                        muidb.AddOrUpdateString(id, cmd.Lang, unit.Target, translatedState, comment);
                     }
 
                     break;
