@@ -81,12 +81,12 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ToXlf12Test()
         {
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToXlfV12(null));
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToXlfV12(string.Empty));
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToXlfV12(" "));
+            Assert.ThrowsException<ArgumentNullException>(() => StateConverter.ToXlfV12(null));
+            StateConverter.ToXlfV12(string.Empty).Should().Be(Xlf12States.New);
+            StateConverter.ToXlfV12(" ").Should().Be(Xlf12States.New);
 
             // XLIFF 1.2 states
-            foreach (var state in StateConverter.XlfV12States.Enumerate())
+            foreach (var state in Xlf12States.Enumerate())
             {
                 StateConverter.ToXlfV12(state).Should().Be(state);
             }
@@ -113,12 +113,12 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ToXlf20Test()
         {
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToXlfV20(null));
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToXlfV20(string.Empty));
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToXlfV20(" "));
+            Assert.ThrowsException<ArgumentNullException>(() => StateConverter.ToXlfV20(null));
+            StateConverter.ToXlfV20(string.Empty).Should().Be(Xlf20States.Initial);
+            StateConverter.ToXlfV20(" ").Should().Be(Xlf20States.Initial);
 
             // XLIFF v2.0 states
-            foreach (var state in StateConverter.XlfV20States.Enumerate())
+            foreach (var state in Xlf20States.Enumerate())
             {
                 StateConverter.ToXlfV20(state).Should().Be(state);
             }
@@ -149,12 +149,12 @@ namespace fmdev.MuiDB.Tests
         [TestMethod]
         public void ToMuiDBTest()
         {
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToMuiDB(null));
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToMuiDB(string.Empty));
-            Assert.ThrowsException<ArgumentException>(() => StateConverter.ToMuiDB(" "));
+            Assert.ThrowsException<ArgumentNullException>(() => StateConverter.ToMuiDB(null));
+            StateConverter.ToMuiDB(string.Empty).Should().Be(MuiDbStates.New);
+            StateConverter.ToMuiDB(" ").Should().Be(MuiDbStates.New);
 
             // MuiDB states
-            foreach (var state in StateConverter.MuiDbStates.Enumerate())
+            foreach (var state in MuiDbStates.Enumerate())
             {
                 StateConverter.ToMuiDB(state).Should().Be(state);
             }

@@ -17,9 +17,14 @@ namespace fmdev.MuiDB
 
         public static string ToXlfV12(string state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             if (string.IsNullOrWhiteSpace(state))
             {
-                throw new ArgumentException();
+                return XlfV12States.New;
             }
 
             if (XlfV12States.Enumerate().Contains(state))
@@ -53,9 +58,14 @@ namespace fmdev.MuiDB
 
         public static string ToXlfV20(string state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             if (string.IsNullOrWhiteSpace(state))
             {
-                throw new ArgumentException();
+                return XlfV20States.Initial;
             }
 
             if (XlfV20States.Enumerate().Contains(state))
@@ -94,11 +104,23 @@ namespace fmdev.MuiDB
             throw new ArgumentOutOfRangeException(nameof(state), state, $"The state '{state}' is unknown and thus can not be converted to a valid XLIFF v2.0 state");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state"></param>
+        /// <throws>ArgumentException</throws>
+        /// <throws>ArgumentOutOfRangeException</throws>
+        /// <returns></returns>
         public static string ToMuiDB(string state)
         {
+            if (state == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             if (string.IsNullOrWhiteSpace(state))
             {
-                throw new ArgumentException();
+                return MuiDbStates.New;
             }
 
             if (MuiDbStates.Enumerate().Contains(state))
